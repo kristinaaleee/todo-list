@@ -11,13 +11,11 @@
     </header>
     <div id="container">
         <div id="left-panel">
-            <button>Home</button>
-            <button>Notes</button>
+            <h2>Home</h2>
+            <h2>Notes</h2>
             <h2>Projects</h2>
             <ul>
-                <li><button>
-                    <!-- project examples -->
-                </button></li>
+                <li> Random project example </li>
             </ul>
         </div>
         <div id="main-panel">
@@ -31,34 +29,41 @@
             <button class="tabs">To-do Item</button>
             <button class="tabs">Project</button>
             <button class="tabs">Note</button>
-            <div class="todo-tab">
+            <div class="tabcontent">
                 <form action="" method="dialog" >
-                    <input type="text" name="item-title">
-                    <input type="text" name="detail">
+                    <input type="text" name="item-title" class="todo-input">
+                    <input type="text" name="detail" class="todo-input">
 
                     <label for="date">Due Date: </label>
-                    <input type="date" name="date">
+                    <input type="date" name="date" class="todo-input">
 
                     <label for="priority">Priority: </label>
-                    <input type="button" value="high">
-                    <input type="button" value="med">
-                    <input type="button" value="low">
+                    <input type="button" value="high" class="todo-input">
+                    <input type="button" value="med" class="todo-input">
+                    <input type="button" value="low" class="todo-input">
+
+                    <label for="project">Project: </label>
+                    <select name="project" id="project-select" class="todo-input">
+                        <option value="home">Home</option>
+                    </select>
+                    <button type='submit' class="add todo" formmethod="dialog">Add</button>
                 </form>
             </div>
-            <div class="project-tab">
-                <form action="">
-                    <input type="text" name="project-title">
+            <div class="tabcontent">
+                <form action="" method="dialog">
+                    <input type="text" name="project-title" id="project-title">
+                    <button type='submit' class="add project" formmethod="dialog">Add</button>
                 </form>
             </div>
-            <div class="note-tab">
-                <form action="">
-                    <input type="text" name="note">
+            <div class="tabcontent">
+                <form action="" method="dialog">
+                    <input type="text" name="note" id="note-info">
+                    <button type='submit' class="add note" formmethod="dialog">Add</button>
                 </form>
             </div>
-            <button type='submit' id="submit" formmethod="dialog">Add</button>
         </div> 
     </dialog> 
     </div>
-<script></script>
+<script src="logic.js"></script>
 </body>
 </html>
