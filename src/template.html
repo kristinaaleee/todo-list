@@ -51,25 +51,48 @@
 
                     <label for="project">Project: </label>
                     <select name="project" id="project-select" class="todo-input">
-                        <option value="home">Home</option>
                     </select>
-                    <button type='submit' class="add todo" formmethod="dialog">Add</button>
+                    <button type='submit' id="add-todo" formmethod="dialog">Add</button>
                 </form>
             </div>
             <div class="tabcontent">
                 <form action="" method="dialog">
                     <input type="text" name="project-title" id="project-title">
-                    <button type='submit' class="add project" formmethod="dialog">Add</button>
+                    <button type='submit' id="add-project" formmethod="dialog">Add</button>
                 </form>
             </div>
             <div class="tabcontent">
                 <form action="" method="dialog">
                     <input type="text" name="note" id="note-info">
-                    <button type='submit' class="add note" formmethod="dialog">Add</button>
+                    <button type='submit' id="add-note" formmethod="dialog">Add</button>
                 </form>
             </div>
         </div> 
     </dialog> 
+    <dialog id="update-dialog">
+        <div class="updatecontent">
+            <form action="" method="dialog" >
+                <input type="text" name="item-title" class="update-input">
+                <input type="text" name="detail" class="update-input">
+
+                <label for="date">Due Date: </label>
+                <input type="date" name="date" class="update-input">
+
+                <label for="priority">Priority: </label>
+                <select name="priority" id="priority-select" class="update-input">
+                    <option value="high">high</option>
+                    <option value="med">med</option>                        
+                    <option value="low">low</option>
+                </select>
+                
+
+                <label for="project">Project: </label>
+                <select name="project" id="project-select" class="update-input">
+                </select>
+                <button type='submit' id="update-todo" formmethod="dialog">Update</button>
+            </form>
+        </div>
+    </dialog>
     </div>
 <script src="logic.js"></script>
 </body>

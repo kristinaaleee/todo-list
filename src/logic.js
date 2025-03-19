@@ -39,6 +39,7 @@ function addTodoItem(item){
     const editButton = document.createElement('button');
     const delButton = document.createElement('button');
     const completeButton = document.createElement('button'); //edit visual checkbox
+    const updateButton = document.getElementById('update-todo'); //bro how do i do this
     cardDetail.appendChild(title);
     cardDetail.appendChild(dueDate);
 
@@ -54,8 +55,40 @@ function addTodoItem(item){
         delButton.parentElement.remove();
         const index = todoList.indexOf(item)
         todoList.splice(index,1)
-        console.log(todoList) //THIS WORKS
+        console.log(todoList) 
     });
+
+    editButton.addEventListener('click', function(){
+        const updateDialog = document.getElementById('update-dialog')
+        updateDialog.showModal();
+
+    })
+
+    //need to actively update dom or maybe just post update
+    updateButton.addEventListener('click', function(){
+        const updateInput = document.getElementsByClassName('update-input')
+
+        const newItem = new Item(updateInput[0].value, updateInput[1].value, updateInput[2].value, updateInput[3].value, updateInput[4].value, false)
+        todoList.splice(item, 1, newItem) 
+    })
+
+    // GAHHH WHY ISNT THIS WoRKING
+    // editButton.addEventListener('click', function(){
+    //     const updateButton = document.createElement('button')
+    //     updateButton.setAttribute('type', 'submit')
+    //     updateButton.setAttribute('id', 'update-item')
+    //     updateButton.setAttribute('formmethod', 'dialog')
+    //     updateButton.textContent = 'Update'
+
+
+    //     todoButton.replaceWith(updateButton); //this permenately replaces it
+    //     dialog.showModal();
+
+    //     let i = 0
+    //     for (let prop in obj){
+            
+    //     }
+    // });
 }
 
 function addProject(project){
@@ -73,27 +106,30 @@ function addProject(project){
 
     projectList.addEventListener('click', () => {
         console.log(project)
-        //add based on project property of items
-    
+        content.innerHTML = ''
+        let projectItems = todoList.filter(item => {
+            return item.project === project 
+        })
+
+        for (let i in projectItems){
+            addTodoItem(projectItems[i])
+        }
     })
 }
 
 function addNotes(note){
     const noteCard = document.createElement('div');
     noteCard.textContent = `${note}`
-
     const delButton = document.createElement('button');
 
     noteCard.appendChild(delButton) 
-
     content.appendChild(noteCard);
 }
 
 
-
 // tab switch/form display
 const formButton = document.getElementById('new');
-const dialog = document.querySelector('dialog');
+const dialog = document.getElementById('dialog');
 const tabContent = document.getElementsByClassName('tabcontent');
 const tabButtons = document.getElementsByClassName("tabs");
 
@@ -120,19 +156,18 @@ for (let i = 0; i < tabContent.length; i++){
 const todoInput = document.getElementsByClassName('todo-input');
 const projectInput = document.getElementById('project-title');
 const noteInput = document.getElementById('note-info');
-const todoButton = document.querySelector('.todo');
-const projectButton = document.querySelector('.project');
-const noteButton = document.querySelector('.note');
+const todoButton = document.getElementById('add-todo');
+const projectButton = document.getElementById('add-project');
+const noteButton = document.getElementById('add-note');
 
 todoButton.addEventListener('click', () => {
     const todo = new Item(todoInput[0].value, todoInput[1].value, todoInput[2].value, todoInput[3].value, todoInput[4].value, false)
-    todoList.push(todo);
     addTodoItem(todo);
+    todoList.push(todo);
     console.log(todoList) //defined if in function ORDER MATTERS
 })
 
 noteButton.addEventListener('click', () => {
-    // addNotes(noteInput.value);    /// add this to separate event listener for tab?
     notesArray.push(noteInput.value);
     console.log(notesArray);
 })
@@ -143,10 +178,9 @@ projectButton.addEventListener('click', ()=>{
     console.log(projectArray)
 });
 
-//project tab button
+//tab switch mechanism
 const homeTab = document.getElementById('home-tab')
 const noteTab = document.getElementById('note-tab')
-const projectTab = document.getElementsByClassName('project-list')
 
 homeTab.addEventListener('click', () => {
     content.innerHTML = ''
@@ -164,17 +198,10 @@ noteTab.addEventListener('click', () => {
     }
 })
 
-// projectTab.addEventListener('click', (event) => {
-//     console.log(event)
-// })
 
 
-// noteButton.addEventListener('click', notes.push(noteInput));
 
 
-// item.project to sort them into the right tabs
-// const content = document.getElementById('content');
-// for (let item in todoList){
-//     content.appendChild(addTodoItem(item));
-// }
+
+
 
