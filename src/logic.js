@@ -1,6 +1,6 @@
 const todoList = [];
-const projects = [];
-const notes = [];
+const projectArray = [];
+const notesArray = [];
 
 class Item {
     constructor(title, description, date, priority, project, complete){
@@ -10,20 +10,8 @@ class Item {
         this.priorty = priority;
         this.project = project;
         this.complete = complete;
-
-        // similar to read toggle?
     }
 }
-// class Project{
-//     constructor(title){
-//         this.title = title;
-//     }
-// }
-// class Note{
-//     constructor(note){
-//         this.note = note;
-//     }
-// }
 
 function markComplete(item){
     if(item.complete){
@@ -33,6 +21,8 @@ function markComplete(item){
         item.complete = true;
     }
 }
+
+const content = document.getElementById('content');
 
 function addTodoItem(item){
     const card = document.createElement('div');
@@ -48,36 +38,85 @@ function addTodoItem(item){
 
     const editButton = document.createElement('button');
     const delButton = document.createElement('button');
-
+    const completeButton = document.createElement('button'); //edit visual checkbox
     cardDetail.appendChild(title);
     cardDetail.appendChild(dueDate);
 
     card.appendChild(priorityBar);
     card.appendChild(cardDetail);
+    card.appendChild(completeButton);
     card.appendChild(editButton);
     card.appendChild(delButton);
+    
+    content.appendChild(card);
 
-    return card;
-    //collapsible idk if i wanna do this
+    delButton.addEventListener('click', function(){
+        delButton.parentElement.remove();
+        const index = todoList.indexOf(item)
+        todoList.splice(index,1)
+        console.log(todoList) //THIS WORKS
+    });
 }
 
+function addProject(project){
+    const projectSelect = document.getElementById('project-select')
+    const projectOption = document.createElement('option')
+    projectOption.setAttribute('value', `${project}`)
+    projectOption.textContent = `${project}`
+    projectSelect.appendChild(projectOption)
+
+    const projectTab = document.getElementById('project-tab')
+    const projectList = document.createElement('div')
+    projectList.setAttribute('class','project-list')
+    projectList.textContent = `${project}`
+    projectTab.appendChild(projectList)
+
+    projectList.addEventListener('click', () => {
+        console.log(project)
+        //add based on project property of items
+    
+    })
+}
+
+function addNotes(note){
+    const noteCard = document.createElement('div');
+    noteCard.textContent = `${note}`
+
+    const delButton = document.createElement('button');
+
+    noteCard.appendChild(delButton) 
+
+    content.appendChild(noteCard);
+}
+
+
+
+// tab switch/form display
 const formButton = document.getElementById('new');
 const dialog = document.querySelector('dialog');
 const tabContent = document.getElementsByClassName('tabcontent');
 const tabButtons = document.getElementsByClassName("tabs");
 
-// tabButtons.addEventListener('click', () => { 
-// // event?
-// })
-
-formButton.addEventListener('click', () =>{
-    tabContent[0].style.display = 'block'
-    for (let i = 1; i < tabContent.length; i++) {
+function tabClear(){
+    for (let i = 0; i < tabContent.length; i++) {
         tabContent[i].style.display = 'none';
     }
+}
+
+formButton.addEventListener('click', () =>{
+    tabClear();
+    tabContent[0].style.display = 'block';
     dialog.showModal();
 })
 
+for (let i = 0; i < tabContent.length; i++){
+    tabButtons[i].addEventListener('click', () =>{
+        tabClear();
+        tabContent[i].style.display = 'block';
+    })
+}
+
+//data collection
 const todoInput = document.getElementsByClassName('todo-input');
 const projectInput = document.getElementById('project-title');
 const noteInput = document.getElementById('note-info');
@@ -86,17 +125,56 @@ const projectButton = document.querySelector('.project');
 const noteButton = document.querySelector('.note');
 
 todoButton.addEventListener('click', () => {
-    const todo = new Item(todoInput[0], todoInput[1], todoInput[2], todoInput[3], todoInput[4], false)
+    const todo = new Item(todoInput[0].value, todoInput[1].value, todoInput[2].value, todoInput[3].value, todoInput[4].value, false)
     todoList.push(todo);
+    addTodoItem(todo);
+    console.log(todoList) //defined if in function ORDER MATTERS
 })
-// do i need .value?
-projectButton.addEventListener('click', projects.push(projectInput));
-noteButton.addEventListener('click', notes.push(noteInput));
+
+noteButton.addEventListener('click', () => {
+    // addNotes(noteInput.value);    /// add this to separate event listener for tab?
+    notesArray.push(noteInput.value);
+    console.log(notesArray);
+})
+    
+projectButton.addEventListener('click', ()=>{
+    addProject(projectInput.value); 
+    projectArray.push(projectInput.value);
+    console.log(projectArray)
+});
+
+//project tab button
+const homeTab = document.getElementById('home-tab')
+const noteTab = document.getElementById('note-tab')
+const projectTab = document.getElementsByClassName('project-list')
+
+homeTab.addEventListener('click', () => {
+    content.innerHTML = ''
+    for (let item in todoList){
+        addTodoItem(todoList[item]);
+        console.log(todoList[item]);
+    }
+})
+
+noteTab.addEventListener('click', () => {
+    content.innerHTML = ''
+    for (let note in notesArray){
+        addNotes(notesArray[note]);
+        console.log(notesArray[note]);
+    }
+})
+
+// projectTab.addEventListener('click', (event) => {
+//     console.log(event)
+// })
+
+
+// noteButton.addEventListener('click', notes.push(noteInput));
 
 
 // item.project to sort them into the right tabs
-const content = document.getElementById('content');
-for (let item in todoList){
-    content.appendChild(addTodoItem(item));
-}
+// const content = document.getElementById('content');
+// for (let item in todoList){
+//     content.appendChild(addTodoItem(item));
+// }
 

@@ -11,12 +11,16 @@
     </header>
     <div id="container">
         <div id="left-panel">
-            <h2>Home</h2>
-            <h2>Notes</h2>
-            <h2>Projects</h2>
-            <ul>
-                <li> Random project example </li>
-            </ul>
+            <div id="home-tab">
+                <h2>Home</h2>
+            </div>
+            <div id="note-tab">
+                <h2>Notes</h2>    
+            </div>
+            <div id="project-tab">
+                <h2>Projects</h2>
+                <div class="project-list">random project</div>
+            </div>
         </div>
         <div id="main-panel">
             <div id="content">
@@ -38,9 +42,12 @@
                     <input type="date" name="date" class="todo-input">
 
                     <label for="priority">Priority: </label>
-                    <input type="button" value="high" class="todo-input">
-                    <input type="button" value="med" class="todo-input">
-                    <input type="button" value="low" class="todo-input">
+                    <select name="priority" id="priority-select" class="todo-input">
+                        <option value="high">high</option>
+                        <option value="med">med</option>                        
+                        <option value="low">low</option>
+                    </select>
+                    
 
                     <label for="project">Project: </label>
                     <select name="project" id="project-select" class="todo-input">
