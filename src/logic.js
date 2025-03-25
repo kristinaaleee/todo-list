@@ -39,7 +39,6 @@ function addTodoItem(item){
     const editButton = document.createElement('button');
     const delButton = document.createElement('button');
     const completeButton = document.createElement('button'); //edit visual checkbox
-    const updateButton = document.getElementById('update-todo'); //bro how do i do this
     cardDetail.appendChild(title);
     cardDetail.appendChild(dueDate);
 
@@ -61,34 +60,21 @@ function addTodoItem(item){
     editButton.addEventListener('click', function(){
         const updateDialog = document.getElementById('update-dialog')
         updateDialog.showModal();
+        console.log('update page open')
 
-    })
+        const updateButton = document.getElementById('update-todo'); //bro how do i do this
 
-    //need to actively update dom or maybe just post update
-    updateButton.addEventListener('click', function(){
-        const updateInput = document.getElementsByClassName('update-input')
-
-        const newItem = new Item(updateInput[0].value, updateInput[1].value, updateInput[2].value, updateInput[3].value, updateInput[4].value, false)
-        todoList.splice(item, 1, newItem) 
-    })
-
-    // GAHHH WHY ISNT THIS WoRKING
-    // editButton.addEventListener('click', function(){
-    //     const updateButton = document.createElement('button')
-    //     updateButton.setAttribute('type', 'submit')
-    //     updateButton.setAttribute('id', 'update-item')
-    //     updateButton.setAttribute('formmethod', 'dialog')
-    //     updateButton.textContent = 'Update'
-
-
-    //     todoButton.replaceWith(updateButton); //this permenately replaces it
-    //     dialog.showModal();
-
-    //     let i = 0
-    //     for (let prop in obj){
-            
-    //     }
-    // });
+        updateButton.addEventListener('click', function(){
+            const updateInput = document.getElementsByClassName('update-input')
+            const newItem = new Item(updateInput[0].value, updateInput[1].value, updateInput[2].value, updateInput[3].value, updateInput[4].value, false)
+            const index = todoList.indexOf(item)
+            todoList.splice(index, 1, newItem) 
+            title.textContent = `${newItem.title}`
+            dueDate.textContent = `${newItem.date}`
+            console.log('update button submitted')
+            console.log(todoList)
+        })
+    })  
 }
 
 function addProject(project){
