@@ -77,11 +77,15 @@ function addTodoItem(item){
     })  
 }
 
+//nested event listener for the update button instead of two separate forms
+
 function addProject(project){
     const projectSelect = document.getElementById('project-select')
+    const projectUpdate = document.getElementById('project-update')
     const projectOption = document.createElement('option')
     projectOption.setAttribute('value', `${project}`)
     projectOption.textContent = `${project}`
+    projectUpdate.appendChild(projectOption)
     projectSelect.appendChild(projectOption)
 
     const projectTab = document.getElementById('project-tab')
@@ -110,6 +114,12 @@ function addNotes(note){
 
     noteCard.appendChild(delButton) 
     content.appendChild(noteCard);
+
+    delButton.addEventListener('click', function(){
+        delButton.parentElement.remove();
+        const index = notesArray.indexOf(note)
+        notesArray.splice(index,1)
+    });
 }
 
 

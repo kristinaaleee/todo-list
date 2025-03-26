@@ -51,6 +51,7 @@
 
                     <label for="project">Project: </label>
                     <select name="project" id="project-select" class="todo-input">
+                        <option value="">N/A</option>
                     </select>
                     <button type='submit' id="add-todo" formmethod="dialog">Add</button>
                 </form>
@@ -79,14 +80,15 @@
                 <input type="date" name="date" class="update-input">
 
                 <label for="priority">Priority: </label>
-                <select name="priority" id="priority-select" class="update-input">
+                <select name="priority" id="priority-update" class="update-input">
                     <option value="high">high</option>
                     <option value="med">med</option>                        
                     <option value="low">low</option>
                 </select>
 
                 <label for="project">Project: </label>
-                <select name="project" id="project-select" class="update-input">
+                <select name="project" id="project-update" class="update-input">
+                    <option value="">N/A</option>
                 </select>
                 <button type='submit' id="update-todo" formmethod="dialog">Update</button>
             </form>
