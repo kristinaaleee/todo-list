@@ -37,8 +37,11 @@ function addTodoItem(item){
     dueDate.textContent = `${item.date}`;
 
     const editButton = document.createElement('button');
+    editButton.textContent = 'Edit'
     const delButton = document.createElement('button');
+    delButton.textContent = 'Delete'
     const completeButton = document.createElement('button'); //edit visual checkbox
+    completeButton.textContent = 'Done?'
     cardDetail.appendChild(title);
     cardDetail.appendChild(dueDate);
 
@@ -58,34 +61,119 @@ function addTodoItem(item){
     });
 
     editButton.addEventListener('click', function(){
-        const updateDialog = document.getElementById('update-dialog')
-        updateDialog.showModal();
-        console.log('update page open')
-
-        const updateButton = document.getElementById('update-todo'); //bro how do i do this
-
-        updateButton.addEventListener('click', function(){
-            const updateInput = document.getElementsByClassName('update-input')
-            const newItem = new Item(updateInput[0].value, updateInput[1].value, updateInput[2].value, updateInput[3].value, updateInput[4].value, false)
-            const index = todoList.indexOf(item)
-            todoList.splice(index, 1, newItem) 
-            title.textContent = `${newItem.title}`
-            dueDate.textContent = `${newItem.date}`
-            console.log('update button submitted')
-            console.log(todoList)
-        })
-    })  
+        updateForm(item);
+        editButton.parentElement.remove();
+        // goal is to remove after
+    })
 }
 
-//nested event listener for the update button instead of two separate forms
+function updateForm(item){
+    const container = document.getElementById('container')
+    const updateDialog = document.createElement('dialog')
+    const formBox = document.createElement('form')
+    formBox.setAttribute('method', 'dialog')
+
+    //title
+    const updateTitle = document.createElement('input')
+    updateTitle.setAttribute('type', 'text')
+    updateTitle.setAttribute('name', 'item-title')
+    updateTitle.setAttribute('placeholder', 'title')
+
+    //detail
+    const updateDetail = document.createElement('input')
+    updateDetail.setAttribute('type', 'text')
+    updateDetail.setAttribute('name', 'detail')
+    updateDetail.setAttribute('placeholder', 'Details')
+
+    //date
+    const dateLabel = document.createElement('label')
+    dateLabel.textContent = 'Due Date: '
+    dateLabel.setAttribute('for', 'date')
+
+    const updateDate = document.createElement('input')
+    updateDate.setAttribute('type', 'date')
+    updateDate.setAttribute('name', 'date')
+
+    //priority
+    const priorityLabel = document.createElement('label')
+    priorityLabel.textContent = 'Priority: '
+    priorityLabel.setAttribute('for', 'priority')
+
+    const updatePriority = document.createElement('select')
+    updatePriority.setAttribute('name', 'project')
+
+    const highPriority = document.createElement('option')
+    highPriority.setAttribute('value', 'high')
+    highPriority.textContent = 'High'
+
+    const medPriority = document.createElement('option')
+    medPriority.setAttribute('value', 'med')
+    medPriority.textContent = 'Med'
+
+    const lowPriority = document.createElement('option')
+    lowPriority.setAttribute('value', 'low')
+    lowPriority.textContent = 'Low'
+
+    updatePriority.appendChild(highPriority)
+    updatePriority.appendChild(medPriority)
+    updatePriority.appendChild(lowPriority)
+
+    //project
+    const projectLabel = document.createElement('label')
+    projectLabel.textContent = 'Project: '
+    const updateProject = document.createElement('select')
+    const noProject = document.createElement('option')
+    noProject.textContent = 'N/A'
+    noProject.setAttribute('value', ``)
+    updateProject.appendChild(noProject)
+
+    projectArray.forEach((project) => {
+        const projectName = document.createElement('option')
+        projectName.textContent = `${project}`
+        projectName.setAttribute('value', `${project}`)
+        updateProject.appendChild(projectName)
+    })
+
+    const updateButton = document.createElement('button')
+    updateButton.textContent = 'Update'
+    updateButton.setAttribute('type', 'submit')
+    updateButton.setAttribute('formmethod', 'dialog')
+
+    //append
+    formBox.appendChild(updateTitle)
+    formBox.appendChild(updateDetail)
+    formBox.appendChild(dateLabel)
+    formBox.appendChild(updateDate)
+    formBox.appendChild(priorityLabel)
+    formBox.appendChild(updatePriority)
+    formBox.appendChild(projectLabel)
+    formBox.appendChild(updateProject)
+    formBox.appendChild(updateButton)
+
+    updateDialog.appendChild(formBox)
+
+    container.appendChild(updateDialog)
+
+    updateButton.addEventListener('click', function(){
+        const newItem = new Item(updateTitle.value, updateDetail.value, updateDate.value, updatePriority.value, updateProject.value, false)
+        const index = todoList.indexOf(item)
+        todoList.splice(index, 1, newItem)
+        console.log(todoList) 
+
+        addTodoItem(newItem)
+        } 
+    )
+
+    updateDialog.showModal();
+    
+}
+
 
 function addProject(project){
     const projectSelect = document.getElementById('project-select')
-    const projectUpdate = document.getElementById('project-update')
     const projectOption = document.createElement('option')
     projectOption.setAttribute('value', `${project}`)
     projectOption.textContent = `${project}`
-    projectUpdate.appendChild(projectOption)
     projectSelect.appendChild(projectOption)
 
     const projectTab = document.getElementById('project-tab')
@@ -101,10 +189,9 @@ function addProject(project){
             return item.project === project 
         })
 
-        for (let i in projectItems){
-            addTodoItem(projectItems[i])
+        projectItems.forEach((item) => addTodoItem(item))
         }
-    })
+    )
 }
 
 function addNotes(note){
