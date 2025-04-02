@@ -77,7 +77,7 @@ function updateForm(item){
     const updateTitle = document.createElement('input')
     updateTitle.setAttribute('type', 'text')
     updateTitle.setAttribute('name', 'item-title')
-    updateTitle.setAttribute('placeholder', 'title')
+    updateTitle.setAttribute('placeholder', 'Title')
 
     //detail
     const updateDetail = document.createElement('input')
