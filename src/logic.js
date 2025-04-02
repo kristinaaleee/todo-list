@@ -1,3 +1,7 @@
+import "./style.css"; 
+import background from "./background.jpg";
+export { addTodoItem, addNotes, addProject };
+
 const todoList = [];
 const projectArray = [];
 const notesArray = [];
@@ -13,14 +17,14 @@ class Item {
     }
 }
 
-function markComplete(item){
-    if(item.complete){
-        item.complete = false
-    }
-    else{
-        item.complete = true;
-    }
-}
+// function markComplete(item){
+//     if(item.complete){
+//         item.complete = false
+//     }
+//     else{
+//         item.complete = true;
+//     }
+// }
 
 const content = document.getElementById('content');
 
@@ -281,10 +285,8 @@ noteTab.addEventListener('click', () => {
     }
 })
 
+// add image
+const backgroundImg = document.createElement('img')
+backgroundImg.src = background
 
-
-
-
-
-
-
+document.body.appendChild(backgroundImg)

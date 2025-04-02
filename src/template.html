@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To Do List</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Zain:ital,wght@0,200;0,300;0,400;0,700;0,800;0,900;1,300;1,400&display=swap');
+    </style>
 </head>
 <body>
-    <header>
-        <h1 id="title">To-Do List</h1>
-    </header>
     <div id="container">
+        <div id="header">
+            <h1 id="title">To-Do List</h1>
+        </div>
         <div id="left-panel">
             <div id="home-tab">
                 <h2>Home</h2>
@@ -30,41 +33,49 @@
         </div> 
         <dialog id="dialog">
         <div id="form-wrapper">
-            <button class="tabs">To-do Item</button>
-            <button class="tabs">Project</button>
-            <button class="tabs">Note</button>
+            <div id="tab-wrapper">
+                <button class="tabs" >To-do Item</button>
+                <button class="tabs">Project</button>
+                <button class="tabs">Notes</button>
+            </div>
             <div class="tabcontent">
                 <form action="" method="dialog" >
-                    <input type="text" name="item-title" class="todo-input" placeholder="Title">
-                    <input type="text" name="detail" class="todo-input" placeholder="Details">
+                    <input type="text" name="item-title" class="todo-input" placeholder="Title: Bill Payments">
+                    <textarea class="todo-input" placeholder="Details: e.g. credit card, car insurance, utilities"></textarea>
 
-                    <label for="date">Due Date: </label>
-                    <input type="date" name="date" class="todo-input">
-
-                    <label for="priority">Priority: </label>
-                    <select name="priority" id="priority-select" class="todo-input">
-                        <option value="high">high</option>
-                        <option value="med">med</option>                        
-                        <option value="low">low</option>
-                    </select>
+                    <div id="date-wrapper">
+                        <label for="date">Due Date: </label>
+                        <input type="date" name="date" class="todo-input">
+                    </div>
                     
-
-                    <label for="project">Project: </label>
-                    <select name="project" id="project-select" class="todo-input">
-                        <option value="">N/A</option>
-                    </select>
+                    <div id="priority-wrapper">
+                        <label for="priority">Priority: </label>
+                        <select name="priority" id="priority-select" class="todo-input" multiple>
+                            <option value="high">High</option>
+                            <option value="med">Med</option>                        
+                           <option value="low">Low</option>
+                        </select>   
+                    </div>
+                    
+                    <div id="project-wrapper">
+                        <label for="project">Project: </label>
+                        <select name="project" id="project-select" class="todo-input">
+                           <option value="">N/A</option>
+                        </select> 
+                    </div>
+                    
                     <button type='submit' id="add-todo" formmethod="dialog">Add</button>
                 </form>
             </div>
             <div class="tabcontent">
                 <form action="" method="dialog">
-                    <input type="text" name="project-title" id="project-title" placeholder="Project Title">
+                    <input type="text" name="project-title" id="project-title" placeholder="Title: Academic Assignments">
                     <button type='submit' id="add-project" formmethod="dialog">Add</button>
                 </form>
             </div>
             <div class="tabcontent">
                 <form action="" method="dialog">
-                    <input type="text" name="note" id="note-info" placeholder="Note...">
+                    <input type="text" name="note" id="note-info" placeholder="Note: e.g. Deadlift PR 4000 pounds">
                     <button type='submit' id="add-note" formmethod="dialog">Add</button>
                 </form>
             </div>

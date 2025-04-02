@@ -1,0 +1,232 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+* {
+    margin: 0;
+} 
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+input, button, textarea, select {
+    font: inherit;
+}
+p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+}
+p {
+    text-wrap: pretty;
+}
+h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+}
+#root, #__next {
+    isolation: isolate;
+}
+/* preset */
+
+:root{
+    --pink: #EEC5CD;
+    --beige: #F8F0DE;
+    --darkbeige: #EBE3D2;
+    /* --lightred: #e45456; opacity change*/ 
+    --red: #E45457;
+    --yellow: #F2BC48;
+    --green: #7ABF4F;
+    --blue: #CBDCE4;
+}
+html{
+    height: 100%;
+}
+body{
+    font-family: "Zain", sans-serif;
+    font-style: normal;
+    font-weight: 400; 
+    height: 100%;
+
+    /* regular */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+ 
+}
+img{
+    width: 100vh;
+    height: 100vw;
+    object-fit: cover;
+    position: absolute;
+    z-index: -1;
+
+    transform: rotate(90deg);
+    filter: brightness(80%);
+}
+
+/* css classes for different weights of font? */
+#container{
+    background-color: var(--beige);
+    display: grid;
+    width: 750px;
+    height: 600px;
+    grid-template-columns: 150px 1fr;
+    grid-template-rows: 100px 1fr;
+    grid-template-areas: 
+    "header header"
+    "left main";
+    /* 100 500*/
+    /* 150 550 */
+}
+#header{
+    display: flex;
+    background-color: var(--pink);
+    grid-area: header;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 1.5rem;
+    font-weight: 600; 
+    /* ^^^ this doesnt change the content  */
+}
+#left-panel{
+    grid-area: left;
+}
+#main-panel{
+    grid-area: main;
+    background-color: var(--blue);
+}
+#new{
+    background-color: var(--pink);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border-style: none;
+    position: relative;
+    left: 525px;
+    top: 375px;
+    
+    line-height: 55px;
+    font-size: 50px;
+}
+
+#new:hover{
+    line-height: 50px;
+    border: solid var(--pink) 5px;
+    background-color: var(--beige);
+}
+
+/* form styling */
+dialog{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    padding: 0;
+    border: none;
+    height: 450px;
+}
+
+.tabcontent > form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+}
+#form-wrapper{
+    display: flex;
+    flex-direction: column;
+    background-color: var(--blue);
+    width: 800px;
+    height: 100%
+}
+#tab-wrapper{
+    height: 60px;
+}
+.tabcontent{
+    padding: 30px 60px;
+    background-color: var(--beige);
+    flex: 1 1 auto;
+
+    /* grow to fill rest of parent div */
+}
+.tabs{
+    border: none;
+    background-color: var(--darkbeige);
+    font-size: 20px;
+    width: 130px;
+    height: 40px;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+input, textarea{
+    outline: none;
+    border-style: none;
+    background-color: var(--beige);
+}
+textarea{
+    resize: none; 
+    height: 150px;
+}
+input[type='date']{
+    color: gray;
+}
+#priority-select{
+    background-color: var(--beige);
+    height: 30px;
+    border: none;
+    overflow: hidden;
+}
+#priority-select option{
+    height: 30px;
+    width: 70px;
+    font-size: 1.1em;
+    margin-right: 25px;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+}
+/* hover affects */
+option[value='high']{
+    border: solid 2px var(--red);
+    color: var(--red);
+}
+option[value='high']:checked{
+    background-color: var(--red);
+    color: var(--beige);
+}
+option[value='med']{
+    border: solid 2px var(--yellow);
+    color: var(--yellow);
+}
+option[value='med']:checked{
+    background-color: var(--yellow);
+    color: var(--beige);
+}
+option[value='low']{
+    border: solid 2px var(--green);
+    color: var(--green);
+}
+option[value='low']:checked{
+    background-color: var(--green);
+    color: var(--beige);
+}
+.tabcontent > form > button{
+    text-transform: uppercase;
+    font-size: 1.4em;
+    background-color: var(--pink);
+    border: none;
+    border-radius: 50px;
+    height: 40px;
+    width: 80px;
+    position: absolute;
+    right: -20px;
+    bottom: 0px
+}
+.tabcontent > form > button:hover{
+    border: solid 4px var(--pink);
+    background-color: var(--beige);
+}
