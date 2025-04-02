@@ -1,3 +1,7 @@
+import "./style.css"; 
+import background from "./background.jpg";
+export { addTodoItem, addNotes, addProject };
+
 const todoList = [];
 const projectArray = [];
 const notesArray = [];
@@ -13,14 +17,14 @@ class Item {
     }
 }
 
-function markComplete(item){
-    if(item.complete){
-        item.complete = false
-    }
-    else{
-        item.complete = true;
-    }
-}
+// function markComplete(item){
+//     if(item.complete){
+//         item.complete = false
+//     }
+//     else{
+//         item.complete = true;
+//     }
+// }
 
 const content = document.getElementById('content');
 
@@ -58,7 +62,7 @@ function addTodoItem(item){
     });
 
     editButton.addEventListener('click', function(){
-        const updateDialog = document.getElementById('update-dialog')
+        const updateDialog = document.getElementById('update-dialog') //add closing button or clicking off the dialog
         updateDialog.showModal();
         console.log('update page open')
 
@@ -74,7 +78,8 @@ function addTodoItem(item){
             console.log('update button submitted')
             console.log(todoList)
         })
-    })  
+    }) 
+    // return  
 }
 
 //nested event listener for the update button instead of two separate forms
@@ -194,10 +199,8 @@ noteTab.addEventListener('click', () => {
     }
 })
 
+// add image
+const backgroundImg = document.createElement('img')
+backgroundImg.src = background
 
-
-
-
-
-
-
+document.body.appendChild(backgroundImg)
