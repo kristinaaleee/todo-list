@@ -40,17 +40,17 @@
             </div>
             <div class="tabcontent">
                 <form action="" method="dialog" >
-                    <input type="text" name="item-title" class="todo-input" placeholder="Title: Bill Payments">
+                    <input type="text" name="item-title" class="todo-input" placeholder="Title: Bill Payments" required>
                     <textarea class="todo-input" placeholder="Details: e.g. credit card, car insurance, utilities"></textarea>
 
                     <div id="date-wrapper">
                         <label for="date">Due Date: </label>
-                        <input type="date" name="date" class="todo-input">
+                        <input type="date" name="date" class="todo-input" required>
                     </div>
                     
                     <div id="priority-wrapper">
                         <label for="priority">Priority: </label>
-                        <select name="priority" id="priority-select" class="todo-input" multiple>
+                        <select name="priority" id="priority-select" class="todo-input" multiple required>
                             <option value="high">High</option>
                             <option value="med">Med</option>                        
                            <option value="low">Low</option>
