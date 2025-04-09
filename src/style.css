@@ -54,11 +54,13 @@ body{
     align-items: center;
     justify-content: center;
     position: relative;
- 
+    overflow: hidden;
+
 }
 img{
-    width: 100vh;
+    width: auto;
     height: 100vw;
+    min-width: 100vh;
     object-fit: cover;
     position: absolute;
     z-index: -1;
@@ -98,6 +100,8 @@ img{
 #main-panel{
     grid-area: main;
     background-color: var(--blue);
+    height: 100%;
+    position: relative;
 }
 #new{
     background-color: var(--pink);
@@ -105,20 +109,18 @@ img{
     height: 50px;
     border-radius: 50%;
     border-style: none;
-    position: relative;
-    left: 525px;
-    top: 375px;
-    
+    position: absolute;
+    left: 510px;
+    top: 420px;
+
     line-height: 55px;
     font-size: 50px;
 }
-
 #new:hover{
     line-height: 50px;
     border: solid var(--pink) 5px;
     background-color: var(--beige);
 }
-
 /* form styling */
 dialog{
     position: fixed;
@@ -133,10 +135,11 @@ dialog{
 .tabcontent > form{
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
     position: relative;
+    height: 100%;
 }
-#form-wrapper{
+.form-wrapper{
     display: flex;
     flex-direction: column;
     background-color: var(--blue);
@@ -146,23 +149,44 @@ dialog{
 #tab-wrapper{
     height: 60px;
 }
-.tabcontent{
+.form-wrapper > h2{
+    padding: 20px
+}
+.form-wrapper > form{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.tabcontent, .form-wrapper > form{
     padding: 30px 60px;
     background-color: var(--beige);
     flex: 1 1 auto;
-
+    
+    font-size: 20px;
     /* grow to fill rest of parent div */
+
 }
 .tabs{
     border: none;
     background-color: var(--darkbeige);
-    font-size: 20px;
-    width: 130px;
+    font-size: 23px;
+    width: fit-content;
+    padding: 5px 15px;
     height: 40px;
     margin-top: 20px;
     margin-left: 20px;
+    border-radius: 15px 15px 0px 0px;
+    box-shadow: 1px 0px 4px gray;
+}
+.tabs:hover{
+    cursor: pointer;
+    /* jiggle */
+}
+.active{
+    background-color: var(--beige);
 }
 input, textarea{
+    padding: 0;
     outline: none;
     border-style: none;
     background-color: var(--beige);
@@ -174,13 +198,17 @@ textarea{
 input[type='date']{
     color: gray;
 }
+#priority-wrapper{
+    margin-bottom: 10px;
+}
 #priority-select{
     background-color: var(--beige);
     height: 30px;
     border: none;
     overflow: hidden;
+    /* margin-bottom: 5px ; */
 }
-#priority-select option{
+#priority-select > option{
     height: 30px;
     width: 70px;
     font-size: 1.1em;
@@ -188,6 +216,7 @@ input[type='date']{
     text-align: center;
     display: inline-block;
     cursor: pointer;
+    padding-top: 0px;
 }
 /* hover affects */
 option[value='high']{
@@ -214,9 +243,21 @@ option[value='low']:checked{
     background-color: var(--green);
     color: var(--beige);
 }
-.tabcontent > form > button{
+#project-select{
+    width: 125px;
+    border: none;
+    background-color: var(--darkbeige);
+    cursor: pointer;
+}
+#project-select option{
+    font-size: 15px;
+    /* font-family: inherit; */
+    /* different font? */
+}
+
+button[type = 'submit']{
     text-transform: uppercase;
-    font-size: 1.4em;
+    font-size: 22px;
     background-color: var(--pink);
     border: none;
     border-radius: 50px;
@@ -224,9 +265,37 @@ option[value='low']:checked{
     width: 80px;
     position: absolute;
     right: -20px;
-    bottom: 0px
+    bottom: 0px;
+    cursor: pointer;
 }
-.tabcontent > form > button:hover{
+
+button[type = 'submit']:hover{
     border: solid 4px var(--pink);
     background-color: var(--beige);
+}
+.collapse{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 30px;
+    background-color: var(--beige);
+}
+.row{
+    display: flex;
+    flex-direction: row;
+}
+.collapse button{
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    padding: 0px;
+}
+svg{
+    color: black;
+    width: 24px;
+    height: 24px;
+}
+#priority{
+    height: auto;
+    width: 15px;
 }

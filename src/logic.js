@@ -11,7 +11,7 @@ class Item {
         this.title = title;
         this.description = description;
         this.date = date;
-        this.priorty = priority;
+        this.priority = priority;
         this.project = project;
         this.complete = complete;
     }
@@ -32,28 +32,50 @@ function addTodoItem(item){
     const card = document.createElement('div');
     card.classList.add('collapse');
 
+    const infoWrapper = document.createElement('div')
+    infoWrapper.classList.add('row')
     const cardDetail = document.createElement('div');
     const priorityBar = document.createElement('div');
+    priorityBar.setAttribute('id','priority')
+    switch(item.priority){
+        case 'high':
+            priorityBar.style.backgroundColor = '#E45457'
+            break;
+        case 'med':
+            priorityBar.style.backgroundColor = '#F2BC48'
+            break;
+        case 'low':
+            priorityBar.style.backgroundColor = '#7ABF4F'
+            break;
+    }
 
     const title = document.createElement('h2');
     title.textContent = `${item.title}`;
     const dueDate = document.createElement('p');
     dueDate.textContent = `${item.date}`;
 
+    const buttonWrapper = document.createElement('div')
     const editButton = document.createElement('button');
-    editButton.textContent = 'Edit'
+    editButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z" /></svg>'
+
     const delButton = document.createElement('button');
-    delButton.textContent = 'Delete'
+    delButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>'
     const completeButton = document.createElement('button'); //edit visual checkbox
     completeButton.textContent = 'Done?'
+
     cardDetail.appendChild(title);
     cardDetail.appendChild(dueDate);
 
-    card.appendChild(priorityBar);
-    card.appendChild(cardDetail);
-    card.appendChild(completeButton);
-    card.appendChild(editButton);
-    card.appendChild(delButton);
+    infoWrapper.appendChild(priorityBar)
+    infoWrapper.appendChild(completeButton)
+    infoWrapper.appendChild(cardDetail)
+
+    buttonWrapper.appendChild(editButton);
+    buttonWrapper.appendChild(delButton)
+
+    card.appendChild(infoWrapper);
+    card.appendChild(buttonWrapper);
+
     
     content.appendChild(card);
 
@@ -74,8 +96,21 @@ function addTodoItem(item){
 function updateForm(item){
     const container = document.getElementById('container')
     const updateDialog = document.createElement('dialog')
+    const formWrapper = document.createElement('div')
+    formWrapper.classList.add('form-wrapper')
     const formBox = document.createElement('form')
     formBox.setAttribute('method', 'dialog')
+    const contentWrapper = document.createElement('div')
+    contentWrapper.classList.add('tabcontent')
+
+    //tab
+    const updateTabWrapper = document.createElement('div')
+    updateTabWrapper.classList.add('tab-wrapper')
+    const titleDiv = document.createElement('div')
+    titleDiv.textContent = 'Update To-Do Item'
+    titleDiv.classList.add('tabs')
+    
+    updateTabWrapper.appendChild(titleDiv)
 
     //title
     const updateTitle = document.createElement('input')
@@ -84,12 +119,11 @@ function updateForm(item){
     updateTitle.setAttribute('placeholder', 'Title')
 
     //detail
-    const updateDetail = document.createElement('input')
-    updateDetail.setAttribute('type', 'text')
-    updateDetail.setAttribute('name', 'detail')
+    const updateDetail = document.createElement('textarea')
     updateDetail.setAttribute('placeholder', 'Details')
 
     //date
+    const dateWrapper = document.createElement('div')
     const dateLabel = document.createElement('label')
     dateLabel.textContent = 'Due Date: '
     dateLabel.setAttribute('for', 'date')
@@ -98,13 +132,19 @@ function updateForm(item){
     updateDate.setAttribute('type', 'date')
     updateDate.setAttribute('name', 'date')
 
+    dateWrapper.appendChild(dateLabel)
+    dateWrapper.appendChild(updateDate)
+
     //priority
+    const priorityWrapper = document.createElement('div')
     const priorityLabel = document.createElement('label')
     priorityLabel.textContent = 'Priority: '
     priorityLabel.setAttribute('for', 'priority')
 
     const updatePriority = document.createElement('select')
-    updatePriority.setAttribute('name', 'project')
+    updatePriority.setAttribute('name', 'priority')
+    updatePriority.setAttribute('id', 'priority-select')
+    updatePriority.setAttribute('multiple', 'multiple')
 
     const highPriority = document.createElement('option')
     highPriority.setAttribute('value', 'high')
@@ -122,14 +162,20 @@ function updateForm(item){
     updatePriority.appendChild(medPriority)
     updatePriority.appendChild(lowPriority)
 
+    priorityWrapper.appendChild(priorityLabel)
+    priorityWrapper.appendChild(updatePriority)
+
     //project
+    const projectWrapper = document.createElement('div')
     const projectLabel = document.createElement('label')
     projectLabel.textContent = 'Project: '
     const updateProject = document.createElement('select')
+    updateProject.setAttribute('id', 'project-select')
     const noProject = document.createElement('option')
     noProject.textContent = 'N/A'
     noProject.setAttribute('value', ``)
     updateProject.appendChild(noProject)
+    
 
     projectArray.forEach((project) => {
         const projectName = document.createElement('option')
@@ -143,18 +189,24 @@ function updateForm(item){
     updateButton.setAttribute('type', 'submit')
     updateButton.setAttribute('formmethod', 'dialog')
 
+    projectWrapper.appendChild(projectLabel)
+    projectWrapper.appendChild(updateProject)
+
     //append
+    
     formBox.appendChild(updateTitle)
     formBox.appendChild(updateDetail)
-    formBox.appendChild(dateLabel)
-    formBox.appendChild(updateDate)
-    formBox.appendChild(priorityLabel)
-    formBox.appendChild(updatePriority)
-    formBox.appendChild(projectLabel)
-    formBox.appendChild(updateProject)
+    formBox.appendChild(dateWrapper)
+    formBox.appendChild(priorityWrapper)
+    formBox.appendChild(projectWrapper)
     formBox.appendChild(updateButton)
 
-    updateDialog.appendChild(formBox)
+    contentWrapper.appendChild(formBox)
+    
+    formWrapper.appendChild(updateTabWrapper)
+    formWrapper.appendChild(contentWrapper)
+
+    updateDialog.appendChild(formWrapper)
 
     container.appendChild(updateDialog)
 
@@ -163,6 +215,7 @@ function updateForm(item){
         const index = todoList.indexOf(item)
         todoList.splice(index, 1, newItem)
         console.log(todoList) 
+        formBox.reset()
 
         addTodoItem(newItem)
         } 
@@ -223,12 +276,14 @@ const tabButtons = document.getElementsByClassName("tabs");
 function tabClear(){
     for (let i = 0; i < tabContent.length; i++) {
         tabContent[i].style.display = 'none';
+        tabButtons[i].classList.remove('active')
     }
 }
 
 formButton.addEventListener('click', () =>{
     tabClear();
     tabContent[0].style.display = 'block';
+    tabButtons[0].classList.add('active');
     dialog.showModal();
 })
 
@@ -236,6 +291,7 @@ for (let i = 0; i < tabContent.length; i++){
     tabButtons[i].addEventListener('click', () =>{
         tabClear();
         tabContent[i].style.display = 'block';
+        tabButtons[i].classList.add('active')
     })
 }
 
@@ -290,3 +346,5 @@ const backgroundImg = document.createElement('img')
 backgroundImg.src = background
 
 document.body.appendChild(backgroundImg)
+
+// connect to local storage by setting array
