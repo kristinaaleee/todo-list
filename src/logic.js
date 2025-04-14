@@ -26,7 +26,7 @@ class Item {
 //     }
 // }
 
-const content = document.getElementById('content');
+const listWrapper = document.getElementById('list-wrapper');
 
 function addTodoItem(item){
     const card = document.createElement('div');
@@ -34,8 +34,14 @@ function addTodoItem(item){
 
     const infoWrapper = document.createElement('div')
     infoWrapper.classList.add('row')
+
     const cardDetail = document.createElement('div');
     cardDetail.setAttribute('id', 'card-detail')
+
+    const cardContent = document.createElement('div');
+    cardContent.classList.add('content');
+    cardContent.textContent = `${item.description}`
+
     const priorityBar = document.createElement('div');
     priorityBar.setAttribute('id','priority')
     switch(item.priority){
@@ -62,7 +68,7 @@ function addTodoItem(item){
 
     const delButton = document.createElement('button');
     delButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>'
-    const completeButton = document.createElement('input'); //edit visual checkbox
+    const completeButton = document.createElement('input');
     completeButton.setAttribute('type', 'checkbox')
 
     cardDetail.appendChild(title);
@@ -72,25 +78,36 @@ function addTodoItem(item){
     infoWrapper.appendChild(completeButton)
     infoWrapper.appendChild(cardDetail)
 
+
     buttonWrapper.appendChild(editButton);
     buttonWrapper.appendChild(delButton)
 
     card.appendChild(infoWrapper);
     card.appendChild(buttonWrapper);
-
     
-    content.appendChild(card);
+    listWrapper.appendChild(card);
+    listWrapper.appendChild(cardContent);
 
     delButton.addEventListener('click', function(){
-        card.remove();
+        card.remove()
+        cardContent.remove();
         const index = todoList.indexOf(item)
         todoList.splice(index,1)
-        console.log(todoList) 
     });
 
     editButton.addEventListener('click', function(){
         updateForm(item);
         // goal is to remove after
+    })
+
+    card.addEventListener('click', () =>{
+        card.classList.toggle('active');
+        if (cardContent.style.maxHeight){
+            cardContent.style.maxHeight = null;
+        }
+        else {
+            cardContent.style.maxHeight = cardContent.scrollHeight + 'px';
+        }
     })
 }
 
@@ -242,7 +259,7 @@ function addProject(project){
 
     projectList.addEventListener('click', () => {
         console.log(project)
-        content.innerHTML = ''
+        listWrapper.innerHTML = ''
         let projectItems = todoList.filter(item => {
             return item.project === project 
         })
@@ -258,7 +275,7 @@ function addNotes(note){
     const delButton = document.createElement('button');
 
     noteCard.appendChild(delButton) 
-    content.appendChild(noteCard);
+    listWrapper.appendChild(noteCard);
 
     delButton.addEventListener('click', function(){
         delButton.parentElement.remove();
@@ -308,7 +325,7 @@ todoButton.addEventListener('click', () => {
     const todo = new Item(todoInput[0].value, todoInput[1].value, todoInput[2].value, todoInput[3].value, todoInput[4].value, false)
     addTodoItem(todo);
     todoList.push(todo);
-    console.log(todoList) //defined if in function ORDER MATTERS
+    //defined if in function ORDER MATTERS
 })
 
 noteButton.addEventListener('click', () => {
@@ -327,7 +344,7 @@ const homeTab = document.getElementById('home-tab')
 const noteTab = document.getElementById('note-tab')
 
 homeTab.addEventListener('click', () => {
-    content.innerHTML = ''
+    listWrapper.innerHTML = ''
     for (let item in todoList){
         addTodoItem(todoList[item]);
         console.log(todoList[item]);
@@ -335,7 +352,7 @@ homeTab.addEventListener('click', () => {
 })
 
 noteTab.addEventListener('click', () => {
-    content.innerHTML = ''
+    listWrapper.innerHTML = ''
     for (let note in notesArray){
         addNotes(notesArray[note]);
         console.log(notesArray[note]);
@@ -349,3 +366,4 @@ backgroundImg.src = background
 document.body.appendChild(backgroundImg)
 
 // connect to local storage by setting array
+

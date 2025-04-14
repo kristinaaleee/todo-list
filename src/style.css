@@ -94,8 +94,12 @@ img{
     /* ^^^ this doesnt change the content  */
 }
 #left-panel{
+    padding: 30px;
     background-color: var(--beige);
     grid-area: left;
+}
+h2 > div{
+    padding: 0px 10px;
 }
 #main-panel{
     grid-area: main;
@@ -103,7 +107,7 @@ img{
     height: 100%;
     position: relative;
 }
-#content{
+#list-wrapper{
     height: 400px;
     overflow-y: scroll;
     scrollbar-color: rgba(128, 128, 128, 0.606) transparent;
@@ -323,7 +327,10 @@ button[type = 'submit']:hover{
     align-items: center;
     justify-content: space-between;
     margin: 30px;
+    margin-bottom: 0px;
     background-color: var(--beige);
+    cursor: pointer;
+    box-shadow: rgba(1, 1, 1, .25) 1px 5px 5px;
 }
 .row{
     display: flex;
@@ -331,10 +338,19 @@ button[type = 'submit']:hover{
     align-items: center;
 }
 .collapse button{
-    cursor: pointer;
     background-color: transparent;
     border: none;
     padding: 0px;
+}
+.content{
+    font-size: 1.2em;
+    margin: 0 30px;
+    padding: 0em  1em;
+    width: 540px;
+    max-height: 0;
+    overflow: hidden;
+    background-color: var(--transparentbeige);
+    transition: max-height 0.2s ease-out;
 }
 svg{
     cursor: pointer;
