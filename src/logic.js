@@ -192,8 +192,6 @@ function updateForm(item){
 
     projectWrapper.appendChild(projectLabel)
     projectWrapper.appendChild(updateProject)
-
-    //append
     
     formBox.appendChild(updateTitle)
     formBox.appendChild(updateDetail)
@@ -221,9 +219,7 @@ function updateForm(item){
         addTodoItem(newItem)
         } 
     )
-
     updateDialog.showModal();
-    
 }
 
 
@@ -246,19 +242,21 @@ function addProject(project){
         let projectItems = todoList.filter(item => {
             return item.project === project 
         })
-
         projectItems.forEach((item) => addTodoItem(item))
         }
     )
 }
-
+const noteContainer = document.createElement('div')
+noteContainer.setAttribute('id', 'note-container');
 function addNotes(note){
     const noteCard = document.createElement('div');
+    noteCard.classList.add('note')
     noteCard.textContent = `${note}`
     const delButton = document.createElement('button');
 
-    noteCard.appendChild(delButton) 
-    content.appendChild(noteCard);
+    noteCard.appendChild(delButton);
+    noteContainer.appendChild(noteCard);
+    content.appendChild(noteContainer)
 
     delButton.addEventListener('click', function(){
         delButton.parentElement.remove();
@@ -308,18 +306,18 @@ todoButton.addEventListener('click', () => {
     const todo = new Item(todoInput[0].value, todoInput[1].value, todoInput[2].value, todoInput[3].value, todoInput[4].value, false)
     addTodoItem(todo);
     todoList.push(todo);
-    console.log(todoList) //defined if in function ORDER MATTERS
+    todoInput.value = ''; 
 })
 
 noteButton.addEventListener('click', () => {
+    addNotes(noteInput.value)
     notesArray.push(noteInput.value);
-    console.log(notesArray);
+    noteInput.value = '';
 })
     
 projectButton.addEventListener('click', ()=>{
     addProject(projectInput.value); 
     projectArray.push(projectInput.value);
-    console.log(projectArray)
 });
 
 //tab switch mechanism
@@ -336,6 +334,7 @@ homeTab.addEventListener('click', () => {
 
 noteTab.addEventListener('click', () => {
     content.innerHTML = ''
+    noteContainer.innerHTML = ''
     for (let note in notesArray){
         addNotes(notesArray[note]);
         console.log(notesArray[note]);

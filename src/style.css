@@ -97,6 +97,9 @@ img{
     background-color: var(--beige);
     grid-area: left;
 }
+#left-panel > *{
+    cursor: pointer;
+}
 #main-panel{
     grid-area: main;
     background-color: var(--transparentbeige);
@@ -346,3 +349,34 @@ svg{
     height: 70px;
     width: 15px;
 }
+
+/* note styling */
+#note-container{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 30px;
+    justify-items: center;
+}
+.note{
+    display: block;
+    font-size: 1.3em;
+    background-color: var(--beige);
+    width: 225px;
+    max-height: 175px;
+    overflow-y: scroll;
+    text-wrap: pretty;
+    padding: 20px;
+    box-shadow: 1px 0px 4px gray;
+    word-wrap: break-word;
+    position: relative;
+    white-space: pre-wrap;
+}
+
+.note > button{
+    position: absolute;
+    top: 3px;
+    right: 3px;
+}
+
+/* put everything into a container befre content*/
