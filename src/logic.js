@@ -112,6 +112,14 @@ function addTodoItem(item){
 }
 
 function updateForm(item){
+
+    console.log('This is the old', item)
+    console.log(item.title);
+    console.log(item.description);
+    console.log(item.date);
+    console.log(item.priority);
+    console.log(item.project);
+
     const container = document.getElementById('container')
     const updateDialog = document.createElement('dialog')
     const formWrapper = document.createElement('div')
@@ -130,15 +138,23 @@ function updateForm(item){
     
     updateTabWrapper.appendChild(titleDiv)
 
+    //prevent autofocus
+    const hiddenFocus = document.createDocumentFragment();
+    hiddenFocus.innerHTML = '<input type="text" autofocus="autofocus" style="display:none" />' ;
+
+    // why isnt this appendingggg
+
     //title
     const updateTitle = document.createElement('input')
     updateTitle.setAttribute('type', 'text')
     updateTitle.setAttribute('name', 'item-title')
     updateTitle.setAttribute('placeholder', 'Title')
+    updateTitle.textContent = `${item.title}`
 
     //detail
     const updateDetail = document.createElement('textarea')
     updateDetail.setAttribute('placeholder', 'Details')
+    updateDetail.textContent = `${item.description}`
 
     //date
     const dateWrapper = document.createElement('div')
@@ -149,6 +165,7 @@ function updateForm(item){
     const updateDate = document.createElement('input')
     updateDate.setAttribute('type', 'date')
     updateDate.setAttribute('name', 'date')
+    updateDate.value = `${item.date}`
 
     dateWrapper.appendChild(dateLabel)
     dateWrapper.appendChild(updateDate)
@@ -163,6 +180,7 @@ function updateForm(item){
     updatePriority.setAttribute('name', 'priority')
     updatePriority.setAttribute('id', 'priority-select')
     updatePriority.setAttribute('multiple', 'multiple')
+    updatePriority.value = `${item.priority}`
 
     const highPriority = document.createElement('option')
     highPriority.setAttribute('value', 'high')
@@ -202,6 +220,8 @@ function updateForm(item){
         updateProject.appendChild(projectName)
     })
 
+    updateProject.value = `${item.project}`
+
     const updateButton = document.createElement('button')
     updateButton.textContent = 'Update'
     updateButton.setAttribute('type', 'submit')
@@ -210,6 +230,7 @@ function updateForm(item){
     projectWrapper.appendChild(projectLabel)
     projectWrapper.appendChild(updateProject)
     
+    formBox.appendChild(hiddenFocus)
     formBox.appendChild(updateTitle)
     formBox.appendChild(updateDetail)
     formBox.appendChild(dateWrapper)
@@ -227,13 +248,14 @@ function updateForm(item){
     container.appendChild(updateDialog)
 
     updateButton.addEventListener('click', function(){
-        const newItem = new Item(updateTitle.value, updateDetail.value, updateDate.value, updatePriority.value, updateProject.value, false)
-        const index = todoList.indexOf(item)
-        todoList.splice(index, 1, newItem)
-        console.log(todoList) 
+        item.title = updateTitle.value;
+        item.detail = updateDetail.value;
+        item.date = updateDate.value;
+        item.priority = updatePriority.value;
+        item.project = updateProject.value;
         formBox.reset()
 
-        addTodoItem(newItem)
+        addTodoItem(item);
         } 
     )
     updateDialog.showModal();
