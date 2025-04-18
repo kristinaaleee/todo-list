@@ -38,6 +38,7 @@ h1, h2, h3, h4, h5, h6 {
     --yellow: #F2BC48;
     --green: #7ABF4F;
     --blue: #CBDCE4;
+    --grey: #4e4e4e;
 }
 html{
     height: 100%;
@@ -74,7 +75,7 @@ img{
     display: grid;
     width: 750px;
     height: 600px;
-    grid-template-columns: 150px 1fr;
+    grid-template-columns: 175px 1fr;
     grid-template-rows: 100px 1fr;
     grid-template-areas: 
     "header header"
@@ -98,8 +99,17 @@ img{
     background-color: var(--beige);
     grid-area: left;
 }
-#left-panel > *{
+#home-tab:hover, #note-tab:hover, #project-tab > div:hover{
     cursor: pointer;
+    text-decoration: underline;
+}
+#project-tab > div{
+    text-transform: capitalize;
+    font-size: 1.2em;
+    padding: 8px 15px;
+    overflow-wrap: break-word;
+    max-width: 150px;
+    line-height: .8em;
 }
 #main-panel{
     grid-area: main;
@@ -113,6 +123,7 @@ img{
     scrollbar-color: rgba(128, 128, 128, 0.606) transparent;
     scrollbar-width: thin;
 }
+/* fix interaction with div */
 input[type='checkbox']{
     appearance: none;
     background-color: transparent;
@@ -138,9 +149,11 @@ input[type="checkbox"]::before {
 input[type='checkbox']:checked::before{
     transform: scale(1);
 }
-
 h3, h3 + p{
     line-height: 1em;
+}
+#card-detail > p{
+    color: var(--grey);
 }
 #button-wrapper{
     display: flex;
@@ -148,6 +161,49 @@ h3, h3 + p{
     gap: 4px;
     padding: 15px;
 }
+.collapse{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 30px;
+    margin-bottom: 0px;
+    background-color: var(--beige);
+    cursor: pointer;
+    box-shadow: rgba(1, 1, 1, .25) 1px 5px 5px;
+}
+.row{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.collapse button{
+    background-color: transparent;
+    border: none;
+    padding: 0px;
+}
+.content{
+    font-size: 1.2em;
+    margin: 0 30px;
+    padding: 0em  1em;
+    width: 540px;
+    max-height: 0;
+    overflow: hidden;
+    background-color: var(--transparentbeige);
+    transition: max-height 0.2s ease-out;
+    white-space: pre-wrap;
+}
+svg{
+    cursor: pointer;
+    color: black;
+    width: 24px;
+    height: 24px;
+}
+#priority{
+    height: 70px;
+    width: 15px;
+}
+
+/* add button */
 #new{
     background-color: var(--pink);
     width: 50px;
@@ -166,6 +222,7 @@ h3, h3 + p{
     border: solid var(--pink) 5px;
     background-color: var(--beige);
 }
+
 /* form styling */
 dialog{
     position: fixed;
@@ -267,6 +324,8 @@ select:focus {
     cursor: pointer;
     padding-top: 0px;
 }
+
+
 /* hover affects */
 option[value='high']{
     border: solid 2px var(--red);
@@ -298,12 +357,11 @@ option[value='low']:checked{
     background-color: var(--darkbeige);
     cursor: pointer;
 }
-#project-select option{
+#project-select > option{
     font-size: 15px;
-    /* font-family: inherit; */
+    text-transform: capitalize;
     /* different font? */
 }
-
 button[type = 'submit']{
     text-transform: uppercase;
     font-size: 22px;
@@ -317,51 +375,11 @@ button[type = 'submit']{
     bottom: 0px;
     cursor: pointer;
 }
-
 button[type = 'submit']:hover{
     border: solid 4px var(--pink);
     background-color: var(--beige);
 }
-.collapse{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 30px;
-    margin-bottom: 0px;
-    background-color: var(--beige);
-    cursor: pointer;
-    box-shadow: rgba(1, 1, 1, .25) 1px 5px 5px;
-}
-.row{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-.collapse button{
-    background-color: transparent;
-    border: none;
-    padding: 0px;
-}
-.content{
-    font-size: 1.2em;
-    margin: 0 30px;
-    padding: 0em  1em;
-    width: 540px;
-    max-height: 0;
-    overflow: hidden;
-    background-color: var(--transparentbeige);
-    transition: max-height 0.2s ease-out;
-}
-svg{
-    cursor: pointer;
-    color: black;
-    width: 24px;
-    height: 24px;
-}
-#priority{
-    height: 70px;
-    width: 15px;
-}
+
 
 /* note styling */
 #note-container{

@@ -312,7 +312,7 @@ for (let i = 0; i < tabContent.length; i++){
 }
 
 //data collection
-const todoInput = document.getElementsByClassName('todo-input');
+let todoInput = document.getElementsByClassName('todo-input');
 const projectInput = document.getElementById('project-title');
 const noteInput = document.getElementById('note-info');
 const todoButton = document.getElementById('add-todo');
@@ -323,7 +323,10 @@ todoButton.addEventListener('click', () => {
     const todo = new Item(todoInput[0].value, todoInput[1].value, todoInput[2].value, todoInput[3].value, todoInput[4].value, false)
     addTodoItem(todo);
     todoList.push(todo);
-    todoInput.value = ''; 
+    dialog.close();
+    for (let i = 0; i < todoInput.length; i++){
+        todoInput[i].value = '';
+    }
 })
 
 noteButton.addEventListener('click', () => {
@@ -335,6 +338,7 @@ noteButton.addEventListener('click', () => {
 projectButton.addEventListener('click', ()=>{
     addProject(projectInput.value); 
     projectArray.push(projectInput.value);
+    projectInput.value = '';
 });
 
 //tab switch mechanism
