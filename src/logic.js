@@ -100,15 +100,18 @@ function addTodoItem(item){
         // goal is to remove after
     })
 
-    card.addEventListener('click', () =>{
-        card.classList.toggle('active');
-        if (cardContent.style.maxHeight){
-            cardContent.style.maxHeight = null;
-        }
-        else {
-            cardContent.style.maxHeight = cardContent.scrollHeight + 'px';
-        }
+    completeButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        item.complete = !item.complete;
+        console.log(item)
     })
+
+    card.addEventListener('click', (e) =>{
+        card.classList.toggle('active');
+        e.stopPropagation();
+        cardContent.style.maxHeight ? cardContent.style.maxHeight = null : cardContent.style.maxHeight = cardContent.scrollHeight + 'px';
+    })
+    console.log(item);
 }
 
 function updateForm(item){
@@ -253,9 +256,10 @@ function updateForm(item){
         item.date = updateDate.value;
         item.priority = updatePriority.value;
         item.project = updateProject.value;
-        formBox.reset()
-
+        formBox.reset();
         addTodoItem(item);
+        console.log('This is the new form', item)
+
         } 
     )
     updateDialog.showModal();
@@ -273,8 +277,16 @@ function addProject(project){
     const projectList = document.createElement('div')
     projectList.setAttribute('class','project-list')
     projectList.textContent = `${project}`
-    projectTab.appendChild(projectList)
+    const delProject = document.createElement('button')
+    delProject.innerHTML = '&#10006'
+    
+    projectList.appendChild(delProject);
+    projectTab.appendChild(projectList);
 
+    delProject.addEventListener('click', () => {
+        projectList.remove();
+        // get from local storage and delete?
+    })
     projectList.addEventListener('click', () => {
         console.log(project)
         listWrapper.innerHTML = ''
@@ -285,17 +297,21 @@ function addProject(project){
         }
     )
 }
+
 const noteContainer = document.createElement('div')
 noteContainer.setAttribute('id', 'note-container');
+
 function addNotes(note){
     const noteCard = document.createElement('div');
     noteCard.classList.add('note')
-    noteCard.textContent = `${note}`
+    const noteText = document.createElement('div')
+    noteText.textContent = `${note}`
     const delButton = document.createElement('button');
+    delButton.innerHTML = '&#10006'
 
-    noteCard.appendChild(delButton) 
+    noteCard.appendChild(delButton);
+    noteCard.appendChild(noteText);
     noteContainer.appendChild(noteCard);
-    listWrapper.appendChild(noteContainer)
 
     delButton.addEventListener('click', function(){
         delButton.parentElement.remove();
@@ -334,7 +350,7 @@ for (let i = 0; i < tabContent.length; i++){
 }
 
 //data collection
-let todoInput = document.getElementsByClassName('todo-input');
+const todoInput = document.getElementsByClassName('todo-input');
 const projectInput = document.getElementById('project-title');
 const noteInput = document.getElementById('note-info');
 const todoButton = document.getElementById('add-todo');
@@ -378,6 +394,7 @@ homeTab.addEventListener('click', () => {
 noteTab.addEventListener('click', () => {
     listWrapper.innerHTML = ''
     noteContainer.innerHTML = ''
+    listWrapper.appendChild(noteContainer)
     for (let note in notesArray){
         addNotes(notesArray[note]);
         console.log(notesArray[note]);

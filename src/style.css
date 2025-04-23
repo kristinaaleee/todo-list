@@ -39,6 +39,7 @@ h1, h2, h3, h4, h5, h6 {
     --green: #7ABF4F;
     --blue: #CBDCE4;
     --grey: #4e4e4e;
+    --shadow: rgba(1, 1, 1, .25);
 }
 html{
     height: 100%;
@@ -73,7 +74,7 @@ img{
 /* css classes for different weights of font? */
 #container{
     display: grid;
-    width: 750px;
+    width: 775px;
     height: 600px;
     grid-template-columns: 175px 1fr;
     grid-template-rows: 100px 1fr;
@@ -99,18 +100,35 @@ img{
     background-color: var(--beige);
     grid-area: left;
 }
-#home-tab:hover, #note-tab:hover, #project-tab > div:hover{
+#home-tab:hover, #note-tab:hover, .project-list:hover{
     cursor: pointer;
     text-decoration: underline;
 }
-#project-tab > div{
+.project-list{
     text-transform: capitalize;
     font-size: 1.2em;
-    padding: 8px 15px;
+    padding: 8px 18px;
     overflow-wrap: break-word;
     max-width: 150px;
     line-height: .8em;
+    position: relative;
 }
+
+.project-list > button{
+    display: none;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    opacity: 50%;
+    font-size: .6em;
+    position: absolute;
+    left: 0;
+}
+
+.project-list > button:has(> .project-list:hover){
+    display: inline;
+}
+
 #main-panel{
     grid-area: main;
     background-color: var(--transparentbeige);
@@ -149,6 +167,13 @@ input[type="checkbox"]::before {
 input[type='checkbox']:checked::before{
     transform: scale(1);
 }
+.collapse:has(input[type='checkbox']:checked){
+    text-decoration: line-through;
+    box-shadow: inset 5em 5em var(--shadow), var(--shadow) 1px 5px 5px;
+}
+#priority:has(+ input[type='checkbox']:checked){
+    box-shadow: inset 5em 5em var(--shadow);
+}
 h3, h3 + p{
     line-height: 1em;
 }
@@ -169,7 +194,7 @@ h3, h3 + p{
     margin-bottom: 0px;
     background-color: var(--beige);
     cursor: pointer;
-    box-shadow: rgba(1, 1, 1, .25) 1px 5px 5px;
+    box-shadow: var(--shadow) 1px 5px 5px;
 }
 .row{
     display: flex;
@@ -395,19 +420,40 @@ button[type = 'submit']:hover{
     background-color: var(--beige);
     width: 225px;
     max-height: 175px;
-    overflow-y: scroll;
-    text-wrap: pretty;
     padding: 20px;
     box-shadow: 1px 0px 4px gray;
     word-wrap: break-word;
     position: relative;
     white-space: pre-wrap;
 }
+.note > div{
+    max-height: 135px;
+    height: auto;
+    overflow-y: scroll;
+    text-wrap: pretty;
+    line-height: 1.3em;
+}
 
 .note > button{
     position: absolute;
-    top: 3px;
-    right: 3px;
+    align-self: right;
+    font-size: .8em;
+    padding: 0;
+    top: 10px;
+    right: 10px;
+    line-height: 1em;
+    border: none;
+    background-color: transparent;
+    opacity: 50%;
 }
 
+.note > button:hover{
+    opacity: 100%;
+}
+
+
+.note > button:hover{
+    cursor: pointer;
+    /* make it jiggle or bold */
+}
 /* put everything into a container befre content*/
