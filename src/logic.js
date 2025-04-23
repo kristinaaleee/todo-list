@@ -2,9 +2,9 @@ import "./style.css";
 import background from "./background.jpg";
 export { addTodoItem, addNotes, addProject };
 
-const todoList = [];
-const projectArray = [];
-const notesArray = [];
+let todoList = [];
+let projectArray = [];
+let notesArray = [];
 
 class Item {
     constructor(title, description, date, priority, project, complete){
@@ -103,7 +103,6 @@ function addTodoItem(item){
     completeButton.addEventListener('click', (e) => {
         e.stopPropagation();
         item.complete = !item.complete;
-        console.log(item)
     })
 
     card.addEventListener('click', (e) =>{
@@ -111,7 +110,6 @@ function addTodoItem(item){
         e.stopPropagation();
         cardContent.style.maxHeight ? cardContent.style.maxHeight = null : cardContent.style.maxHeight = cardContent.scrollHeight + 'px';
     })
-    console.log(item);
 }
 
 function updateForm(item){
@@ -252,14 +250,14 @@ function updateForm(item){
 
     updateButton.addEventListener('click', function(){
         item.title = updateTitle.value;
-        item.detail = updateDetail.value;
+        item.description = updateDetail.value;
         item.date = updateDate.value;
         item.priority = updatePriority.value;
         item.project = updateProject.value;
         formBox.reset();
         addTodoItem(item);
-        console.log('This is the new form', item)
-
+        //This doesnt seem to be working? its only adding item
+        item.project = '' ? openHome() : openProject(item.project)
         } 
     )
     updateDialog.showModal();
@@ -285,17 +283,14 @@ function addProject(project){
 
     delProject.addEventListener('click', () => {
         projectList.remove();
+        projectOption.remove();
+        todoList = todoList.filter(item => {
+            return item.project != project
+        })
         // get from local storage and delete?
     })
     projectList.addEventListener('click', () => {
-        console.log(project)
-        listWrapper.innerHTML = ''
-        let projectItems = todoList.filter(item => {
-            return item.project === project 
-        })
-        projectItems.forEach((item) => addTodoItem(item))
-        }
-    )
+        openProject(project)})
 }
 
 const noteContainer = document.createElement('div')
@@ -383,13 +378,23 @@ projectButton.addEventListener('click', ()=>{
 const homeTab = document.getElementById('home-tab')
 const noteTab = document.getElementById('note-tab')
 
-homeTab.addEventListener('click', () => {
+function openHome(){
     listWrapper.innerHTML = ''
     for (let item in todoList){
         addTodoItem(todoList[item]);
-        console.log(todoList[item]);
     }
-})
+    console.log(todoList);
+}
+
+function openProject(project){
+    listWrapper.innerHTML = ''
+        let projectItems = todoList.filter(item => {
+            return item.project === project 
+        })
+        projectItems.forEach((item) => addTodoItem(item))
+    }
+
+homeTab.addEventListener('click', openHome)
 
 noteTab.addEventListener('click', () => {
     listWrapper.innerHTML = ''
@@ -397,7 +402,6 @@ noteTab.addEventListener('click', () => {
     listWrapper.appendChild(noteContainer)
     for (let note in notesArray){
         addNotes(notesArray[note]);
-        console.log(notesArray[note]);
     }
 })
 

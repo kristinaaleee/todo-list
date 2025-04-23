@@ -105,6 +105,7 @@ img{
     text-decoration: underline;
 }
 .project-list{
+    display: flex;
     text-transform: capitalize;
     font-size: 1.2em;
     padding: 8px 18px;
@@ -112,6 +113,7 @@ img{
     max-width: 150px;
     line-height: .8em;
     position: relative;
+    align-items: center;
 }
 
 .project-list > button{
@@ -125,9 +127,16 @@ img{
     left: 0;
 }
 
-.project-list > button:has(> .project-list:hover){
+.project-list:hover > button{
     display: inline;
+    cursor: pointer;
 }
+
+.project-list:hover > button:hover{
+    opacity: 100%;
+}
+
+
 
 #main-panel{
     grid-area: main;
