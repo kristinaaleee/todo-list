@@ -115,7 +115,6 @@ img{
     position: relative;
     align-items: center;
 }
-
 .project-list > button{
     display: none;
     padding: 0;
@@ -126,18 +125,13 @@ img{
     position: absolute;
     left: 0;
 }
-
 .project-list:hover > button{
     display: inline;
     cursor: pointer;
 }
-
 .project-list:hover > button:hover{
     opacity: 100%;
 }
-
-
-
 #main-panel{
     grid-area: main;
     background-color: var(--transparentbeige);
@@ -284,6 +278,19 @@ dialog{
 }
 #tab-wrapper{
     height: 60px;
+    position: relative;
+}
+.close{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    opacity: 50%;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+.close:hover{
+    opacity: 100%;
 }
 .form-wrapper > h2{
     padding: 20px
@@ -299,8 +306,6 @@ dialog{
     flex: 1 1 auto;
     
     font-size: 20px;
-    /* grow to fill rest of parent div */
-
 }
 .tabs{
     border: none;
@@ -312,7 +317,7 @@ dialog{
     margin-top: 20px;
     margin-left: 20px;
     border-radius: 15px 15px 0px 0px;
-    box-shadow: 1px 0px 4px gray;
+    box-shadow: 1px -3px 3px rgba(128, 128, 128, 0.5);
 }
 .tabs:hover{
     cursor: pointer;

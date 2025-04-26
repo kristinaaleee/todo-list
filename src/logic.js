@@ -115,11 +115,6 @@ function addTodoItem(item){
 function updateForm(item){
 
     console.log('This is the old', item)
-    console.log(item.title);
-    console.log(item.description);
-    console.log(item.date);
-    console.log(item.priority);
-    console.log(item.project);
 
     const container = document.getElementById('container')
     const updateDialog = document.createElement('dialog')
@@ -137,7 +132,12 @@ function updateForm(item){
     titleDiv.textContent = 'Update To-Do Item'
     titleDiv.classList.add('tabs')
     
+    const exitUpdate = document.createElement('button')
+    exitUpdate.innerHTML = '&#10006'
+    exitUpdate.classList.add('close')
+
     updateTabWrapper.appendChild(titleDiv)
+    updateTabWrapper.appendChild(exitUpdate)
 
     //prevent autofocus
     const hiddenFocus = document.createDocumentFragment();
@@ -213,14 +213,13 @@ function updateForm(item){
     noProject.setAttribute('value', ``)
     updateProject.appendChild(noProject)
     
-
     projectArray.forEach((project) => {
         const projectName = document.createElement('option')
         projectName.textContent = `${project}`
         projectName.setAttribute('value', `${project}`)
         updateProject.appendChild(projectName)
     })
-
+    ///SOMETHING IS WRONG HERE -- RETURNNING UNDEFINED FOR VALUE
     updateProject.value = `${item.project}`
 
     const updateButton = document.createElement('button')
@@ -248,6 +247,10 @@ function updateForm(item){
 
     container.appendChild(updateDialog)
 
+    exitUpdate.addEventListener('click', () => {
+        updateDialog.close();
+    })
+
     updateButton.addEventListener('click', function(){
         item.title = updateTitle.value;
         item.description = updateDetail.value;
@@ -257,12 +260,11 @@ function updateForm(item){
         formBox.reset();
         addTodoItem(item);
         //This doesnt seem to be working? its only adding item
-        item.project = '' ? openHome() : openProject(item.project)
+        //need a way to constantly update pages its on...
         } 
     )
     updateDialog.showModal();
 }
-
 
 function addProject(project){
     const projectSelect = document.getElementById('project-select')
@@ -383,7 +385,6 @@ function openHome(){
     for (let item in todoList){
         addTodoItem(todoList[item]);
     }
-    console.log(todoList);
 }
 
 function openProject(project){
@@ -412,4 +413,10 @@ backgroundImg.src = background
 document.body.appendChild(backgroundImg)
 
 // connect to local storage by setting array
+
+//close buttons for forms
+const closeButtons = document.querySelector('.close');
+closeButtons.addEventListener('click', () => {
+    dialog.close();
+})
 
