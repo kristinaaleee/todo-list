@@ -29,6 +29,20 @@ class Item {
 const listWrapper = document.getElementById('list-wrapper');
 
 function addTodoItem(item){
+    function colorPriority(priority){
+        switch(priority){
+            case 'high':
+                priorityBar.style.backgroundColor = '#E45457'
+                break;
+            case 'med':
+                priorityBar.style.backgroundColor = '#F2BC48'
+                break;
+            case 'low':
+                priorityBar.style.backgroundColor = '#7ABF4F'
+                break;
+        }
+    }
+
     const card = document.createElement('div');
     card.classList.add('collapse');
 
@@ -44,17 +58,7 @@ function addTodoItem(item){
 
     const priorityBar = document.createElement('div');
     priorityBar.setAttribute('id','priority')
-    switch(item.priority){
-        case 'high':
-            priorityBar.style.backgroundColor = '#E45457'
-            break;
-        case 'med':
-            priorityBar.style.backgroundColor = '#F2BC48'
-            break;
-        case 'low':
-            priorityBar.style.backgroundColor = '#7ABF4F'
-            break;
-    }
+    colorPriority(item.priority);
 
     const title = document.createElement('h3');
     title.textContent = `${item.title}`;
@@ -96,8 +100,11 @@ function addTodoItem(item){
     });
 
     editButton.addEventListener('click', function(){
-        updateForm(item);
-        // goal is to remove after
+        var newItem = updateForm(item);
+        title.textContent = `${newItem.title}`;
+        cardContent.textContent = `${newItem.description}`
+        colorPriority(newItem.priority);
+        console.log('this is newITem return', newItem)
     })
 
     completeButton.addEventListener('click', (e) => {
@@ -113,9 +120,6 @@ function addTodoItem(item){
 }
 
 function updateForm(item){
-
-    console.log('This is the old', item)
-
     const container = document.getElementById('container')
     const updateDialog = document.createElement('dialog')
     const formWrapper = document.createElement('div')
@@ -248,6 +252,7 @@ function updateForm(item){
     container.appendChild(updateDialog)
 
     exitUpdate.addEventListener('click', () => {
+        console.log('unchanged item', item)
         updateDialog.close();
     })
 
@@ -257,13 +262,14 @@ function updateForm(item){
         item.date = updateDate.value;
         item.priority = updatePriority.value;
         item.project = updateProject.value;
+
+        console.log('updated item', item)
         formBox.reset();
-        addTodoItem(item);
-        //This doesnt seem to be working? its only adding item
-        //need a way to constantly update pages its on...
+        updateDialog.close();
         } 
     )
     updateDialog.showModal();
+    return item;
 }
 
 function addProject(project){
@@ -283,7 +289,7 @@ function addProject(project){
     projectList.appendChild(delProject);
     projectTab.appendChild(projectList);
 
-    delProject.addEventListener('click', () => {
+    delProject.addEventListener('click', (project) => {
         projectList.remove();
         projectOption.remove();
         todoList = todoList.filter(item => {
