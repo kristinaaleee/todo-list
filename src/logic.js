@@ -64,6 +64,12 @@ function addTodoItem(item){
     delButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>'
     const completeButton = document.createElement('input');
     completeButton.setAttribute('type', 'checkbox')
+    if (item.complete){
+        completeButton.setAttribute('checked', 'checked');
+    }
+    if (!item.complete){
+        completeButton.removeAttribute('checked')
+    }
 
     cardDetail.appendChild(title);
     cardDetail.appendChild(dueDate);
@@ -296,8 +302,6 @@ function addProject(project){
         projectArray = projectArray.filter(proj => {
             return proj != project
         })
-
-        // get from local storage and delete?
     })
     projectList.addEventListener('click', () => {
         underlineTab(projectList);
@@ -309,7 +313,7 @@ noteContainer.setAttribute('id', 'note-container');
 
 function addNotes(note){
     const noteCard = document.createElement('div');
-    noteCard.classList.add('note')
+    noteCard.classList.add('notecard')
     const noteText = document.createElement('div')
     noteText.textContent = `${note}`
     const delButton = document.createElement('button');
@@ -325,7 +329,6 @@ function addNotes(note){
         notesArray.splice(index,1)
     });
 }
-
 
 // tab switch/form display
 const formButton = document.getElementById('new');
@@ -365,12 +368,20 @@ const noteButton = document.getElementById('add-note');
 
 todoButton.addEventListener('click', () => {
     const todo = new Item(todoInput[0].value, todoInput[1].value, todoInput[2].value, todoInput[3].value, todoInput[4].value, false)
-    addTodoItem(todo);
     todoList.push(todo);
     dialog.close();
     for (let i = 0; i < todoInput.length; i++){
         todoInput[i].value = '';
     }
+    if (listWrapper.getAttribute('class') === 'home'){
+        openHome();
+    }
+    for (let i = 0; i < projectArray.length; i++){
+        if (listWrapper.getAttribute('class') === `project${i}`){
+            openProject(projectArray[i]);
+        }
+    }
+    // depending on page open list wrapper
 })
 
 noteButton.addEventListener('click', () => {
@@ -390,10 +401,11 @@ const homeTab = document.querySelector('.home-tab')
 const noteTab = document.querySelector('.note-tab')
 
 function underlineTab(tab){
-    const underlined = document.querySelector('.underline');
-    underlined.classList.remove('underline');
+    let underlined = document.querySelector('.underline')
+    if (underlined = document.querySelector('.underline')){
+        underlined.classList.remove('underline');
+    }
     tab.classList.add('underline');
-
 }
 
 function openHome(){
@@ -425,9 +437,9 @@ homeTab.addEventListener('click', () => {
 noteTab.addEventListener('click', () => {
     underlineTab(noteTab);
     listWrapper.innerHTML = ''
-    listWrapper.cl
-    // noteContainer.innerHTML = ''
-    // listWrapper.appendChild(noteContainer)
+    listWrapper.removeAttribute('class')
+    noteContainer.innerHTML = ''
+    listWrapper.appendChild(noteContainer)
     for (let note in notesArray){
         addNotes(notesArray[note]);
     }
