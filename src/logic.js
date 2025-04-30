@@ -17,15 +17,6 @@ class Item {
     }
 }
 
-// function markComplete(item){
-//     if(item.complete){
-//         item.complete = false
-//     }
-//     else{
-//         item.complete = true;
-//     }
-// }
-
 const listWrapper = document.getElementById('list-wrapper');
 
 function addTodoItem(item){
@@ -42,7 +33,6 @@ function addTodoItem(item){
                 break;
         }
     }
-
     const card = document.createElement('div');
     card.classList.add('collapse');
 
@@ -52,17 +42,17 @@ function addTodoItem(item){
     const cardDetail = document.createElement('div');
     cardDetail.setAttribute('id', 'card-detail')
 
-    const cardContent = document.createElement('div');
+    var cardContent = document.createElement('div');
     cardContent.classList.add('content');
     cardContent.textContent = `${item.description}`
 
-    const priorityBar = document.createElement('div');
+    var priorityBar = document.createElement('div');
     priorityBar.setAttribute('id','priority')
     colorPriority(item.priority);
 
-    const title = document.createElement('h3');
+    var title = document.createElement('h3');
     title.textContent = `${item.title}`;
-    const dueDate = document.createElement('p');
+    var dueDate = document.createElement('p');
     dueDate.textContent = `${item.date}`;
 
     const buttonWrapper = document.createElement('div')
@@ -82,7 +72,6 @@ function addTodoItem(item){
     infoWrapper.appendChild(completeButton)
     infoWrapper.appendChild(cardDetail)
 
-
     buttonWrapper.appendChild(editButton);
     buttonWrapper.appendChild(delButton)
 
@@ -99,12 +88,9 @@ function addTodoItem(item){
         todoList.splice(index,1)
     });
 
-    editButton.addEventListener('click', function(){
-        var newItem = updateForm(item);
-        title.textContent = `${newItem.title}`;
-        cardContent.textContent = `${newItem.description}`
-        colorPriority(newItem.priority);
-        console.log('this is newITem return', newItem)
+    editButton.addEventListener('click', function(e){
+        e.stopPropagation();
+        updateForm(item);
     })
 
     completeButton.addEventListener('click', (e) => {
@@ -117,159 +103,163 @@ function addTodoItem(item){
         e.stopPropagation();
         cardContent.style.maxHeight ? cardContent.style.maxHeight = null : cardContent.style.maxHeight = cardContent.scrollHeight + 'px';
     })
-}
 
-function updateForm(item){
-    const container = document.getElementById('container')
-    const updateDialog = document.createElement('dialog')
-    const formWrapper = document.createElement('div')
-    formWrapper.classList.add('form-wrapper')
-    const formBox = document.createElement('form')
-    formBox.setAttribute('method', 'dialog')
-    const contentWrapper = document.createElement('div')
-    contentWrapper.classList.add('tabcontent')
-
-    //tab
-    const updateTabWrapper = document.createElement('div')
-    updateTabWrapper.classList.add('tab-wrapper')
-    const titleDiv = document.createElement('div')
-    titleDiv.textContent = 'Update To-Do Item'
-    titleDiv.classList.add('tabs')
+    function updateForm(item){
+        const container = document.getElementById('container')
+        const updateDialog = document.createElement('dialog')
+        const formWrapper = document.createElement('div')
+        formWrapper.classList.add('form-wrapper')
+        const formBox = document.createElement('form')
+        formBox.setAttribute('method', 'dialog')
+        const contentWrapper = document.createElement('div')
+        contentWrapper.classList.add('tabcontent')
     
-    const exitUpdate = document.createElement('button')
-    exitUpdate.innerHTML = '&#10006'
-    exitUpdate.classList.add('close')
-
-    updateTabWrapper.appendChild(titleDiv)
-    updateTabWrapper.appendChild(exitUpdate)
-
-    //prevent autofocus
-    const hiddenFocus = document.createDocumentFragment();
-    hiddenFocus.innerHTML = '<input type="text" autofocus="autofocus" style="display:none" />' ;
-
-    // why isnt this appendingggg
-
-    //title
-    const updateTitle = document.createElement('input')
-    updateTitle.setAttribute('type', 'text')
-    updateTitle.setAttribute('name', 'item-title')
-    updateTitle.setAttribute('placeholder', 'Title')
-    updateTitle.textContent = `${item.title}`
-
-    //detail
-    const updateDetail = document.createElement('textarea')
-    updateDetail.setAttribute('placeholder', 'Details')
-    updateDetail.textContent = `${item.description}`
-
-    //date
-    const dateWrapper = document.createElement('div')
-    const dateLabel = document.createElement('label')
-    dateLabel.textContent = 'Due Date: '
-    dateLabel.setAttribute('for', 'date')
-
-    const updateDate = document.createElement('input')
-    updateDate.setAttribute('type', 'date')
-    updateDate.setAttribute('name', 'date')
-    updateDate.value = `${item.date}`
-
-    dateWrapper.appendChild(dateLabel)
-    dateWrapper.appendChild(updateDate)
-
-    //priority
-    const priorityWrapper = document.createElement('div')
-    const priorityLabel = document.createElement('label')
-    priorityLabel.textContent = 'Priority: '
-    priorityLabel.setAttribute('for', 'priority')
-
-    const updatePriority = document.createElement('select')
-    updatePriority.setAttribute('name', 'priority')
-    updatePriority.setAttribute('id', 'priority-select')
-    updatePriority.setAttribute('multiple', 'multiple')
-    updatePriority.value = `${item.priority}`
-
-    const highPriority = document.createElement('option')
-    highPriority.setAttribute('value', 'high')
-    highPriority.textContent = 'High'
-
-    const medPriority = document.createElement('option')
-    medPriority.setAttribute('value', 'med')
-    medPriority.textContent = 'Med'
-
-    const lowPriority = document.createElement('option')
-    lowPriority.setAttribute('value', 'low')
-    lowPriority.textContent = 'Low'
-
-    updatePriority.appendChild(highPriority)
-    updatePriority.appendChild(medPriority)
-    updatePriority.appendChild(lowPriority)
-
-    priorityWrapper.appendChild(priorityLabel)
-    priorityWrapper.appendChild(updatePriority)
-
-    //project
-    const projectWrapper = document.createElement('div')
-    const projectLabel = document.createElement('label')
-    projectLabel.textContent = 'Project: '
-    const updateProject = document.createElement('select')
-    updateProject.setAttribute('id', 'project-select')
-    const noProject = document.createElement('option')
-    noProject.textContent = 'N/A'
-    noProject.setAttribute('value', ``)
-    updateProject.appendChild(noProject)
+        //tab
+        const updateTabWrapper = document.createElement('div')
+        updateTabWrapper.classList.add('tab-wrapper')
+        const titleDiv = document.createElement('div')
+        titleDiv.textContent = 'Update To-Do Item'
+        titleDiv.classList.add('tabs')
+        
+        const exitUpdate = document.createElement('button')
+        exitUpdate.innerHTML = '&#10006'
+        exitUpdate.classList.add('close')
     
-    projectArray.forEach((project) => {
-        const projectName = document.createElement('option')
-        projectName.textContent = `${project}`
-        projectName.setAttribute('value', `${project}`)
-        updateProject.appendChild(projectName)
-    })
-    ///SOMETHING IS WRONG HERE -- RETURNNING UNDEFINED FOR VALUE
-    updateProject.value = `${item.project}`
-
-    const updateButton = document.createElement('button')
-    updateButton.textContent = 'Update'
-    updateButton.setAttribute('type', 'submit')
-    updateButton.setAttribute('formmethod', 'dialog')
-
-    projectWrapper.appendChild(projectLabel)
-    projectWrapper.appendChild(updateProject)
+        updateTabWrapper.appendChild(titleDiv)
+        updateTabWrapper.appendChild(exitUpdate)
     
-    formBox.appendChild(hiddenFocus)
-    formBox.appendChild(updateTitle)
-    formBox.appendChild(updateDetail)
-    formBox.appendChild(dateWrapper)
-    formBox.appendChild(priorityWrapper)
-    formBox.appendChild(projectWrapper)
-    formBox.appendChild(updateButton)
-
-    contentWrapper.appendChild(formBox)
+        //title
+        const updateTitle = document.createElement('input')
+        updateTitle.setAttribute('type', 'text')
+        updateTitle.setAttribute('name', 'item-title')
+        updateTitle.setAttribute('placeholder', 'Title')
+        updateTitle.value = `${item.title}`
     
-    formWrapper.appendChild(updateTabWrapper)
-    formWrapper.appendChild(contentWrapper)
-
-    updateDialog.appendChild(formWrapper)
-
-    container.appendChild(updateDialog)
-
-    exitUpdate.addEventListener('click', () => {
-        console.log('unchanged item', item)
-        updateDialog.close();
-    })
-
-    updateButton.addEventListener('click', function(){
-        item.title = updateTitle.value;
-        item.description = updateDetail.value;
-        item.date = updateDate.value;
-        item.priority = updatePriority.value;
-        item.project = updateProject.value;
-
-        console.log('updated item', item)
-        formBox.reset();
-        updateDialog.close();
-        } 
-    )
-    updateDialog.showModal();
-    return item;
+        //detail
+        const updateDetail = document.createElement('textarea')
+        updateDetail.setAttribute('placeholder', 'Details')
+        updateDetail.textContent = `${item.description}`
+    
+        //date
+        const dateWrapper = document.createElement('div')
+        const dateLabel = document.createElement('label')
+        dateLabel.textContent = 'Due Date: '
+        dateLabel.setAttribute('for', 'date')
+    
+        const updateDate = document.createElement('input')
+        updateDate.setAttribute('type', 'date')
+        updateDate.setAttribute('name', 'date')
+        updateDate.value = `${item.date}`
+    
+        dateWrapper.appendChild(dateLabel)
+        dateWrapper.appendChild(updateDate)
+    
+        //priority
+        const priorityWrapper = document.createElement('div')
+        const priorityLabel = document.createElement('label')
+        priorityLabel.textContent = 'Priority: '
+        priorityLabel.setAttribute('for', 'priority')
+    
+        const updatePriority = document.createElement('select')
+        updatePriority.setAttribute('name', 'priority')
+        updatePriority.setAttribute('id', 'priority-select')
+        updatePriority.setAttribute('multiple', 'multiple')
+        updatePriority.value = `${item.priority}`
+    
+        const highPriority = document.createElement('option')
+        highPriority.setAttribute('value', 'high')
+        highPriority.textContent = 'High'
+    
+        const medPriority = document.createElement('option')
+        medPriority.setAttribute('value', 'med')
+        medPriority.textContent = 'Med'
+    
+        const lowPriority = document.createElement('option')
+        lowPriority.setAttribute('value', 'low')
+        lowPriority.textContent = 'Low'
+    
+        switch(item.priority){
+            case 'high':
+                highPriority.setAttribute('selected', 'selected');
+                break;
+            case 'med':
+                medPriority.setAttribute('selected', 'selected');
+                break;
+            case 'low':
+                lowPriority.setAttribute('selected', 'selected');
+                break;
+        }
+    
+        updatePriority.appendChild(highPriority)
+        updatePriority.appendChild(medPriority)
+        updatePriority.appendChild(lowPriority)
+    
+        priorityWrapper.appendChild(priorityLabel)
+        priorityWrapper.appendChild(updatePriority)
+    
+        //project
+        const projectWrapper = document.createElement('div')
+        const projectLabel = document.createElement('label')
+        projectLabel.textContent = 'Project: '
+        const updateProject = document.createElement('select')
+        updateProject.setAttribute('id', 'project-select')
+        const noProject = document.createElement('option')
+        noProject.textContent = 'N/A'
+        noProject.setAttribute('value', ``)
+        updateProject.appendChild(noProject)
+        
+        projectArray.forEach((project) => {
+            const projectName = document.createElement('option')
+            projectName.textContent = `${project}`
+            projectName.setAttribute('value', `${project}`)
+            updateProject.appendChild(projectName)
+        })
+        updateProject.value = `${item.project}`
+    
+        const updateButton = document.createElement('button')
+        updateButton.textContent = 'Update'
+        updateButton.setAttribute('type', 'submit')
+        updateButton.setAttribute('formmethod', 'dialog')
+    
+        projectWrapper.appendChild(projectLabel)
+        projectWrapper.appendChild(updateProject)
+        
+        formBox.appendChild(updateTitle)
+        formBox.appendChild(updateDetail)
+        formBox.appendChild(dateWrapper)
+        formBox.appendChild(priorityWrapper)
+        formBox.appendChild(projectWrapper)
+        formBox.appendChild(updateButton)
+    
+        contentWrapper.appendChild(formBox)
+        
+        formWrapper.appendChild(updateTabWrapper)
+        formWrapper.appendChild(contentWrapper)
+    
+        updateDialog.appendChild(formWrapper)
+    
+        container.appendChild(updateDialog)
+    
+        exitUpdate.addEventListener('click', () => {
+            updateDialog.close();
+        })
+    
+        updateButton.addEventListener('click', function(){
+            item.title = updateTitle.value;
+            item.description = updateDetail.value;
+            item.date = updateDate.value;
+            item.priority = updatePriority.value;
+            item.project = updateProject.value;
+    
+            title.textContent = `${item.title}`;
+            dueDate.textContent = `${item.date}`;
+            cardContent.textContent = `${item.description}`;
+            colorPriority(item.priority);
+            } 
+        )
+        updateDialog.showModal();
+        return item;
+    }
 }
 
 function addProject(project){
@@ -279,7 +269,7 @@ function addProject(project){
     projectOption.textContent = `${project}`
     projectSelect.appendChild(projectOption)
 
-    const projectTab = document.getElementById('project-tab')
+    const projectTab = document.querySelector('.project-tab')
     const projectList = document.createElement('div')
     projectList.setAttribute('class','project-list')
     projectList.textContent = `${project}`
@@ -289,16 +279,29 @@ function addProject(project){
     projectList.appendChild(delProject);
     projectTab.appendChild(projectList);
 
-    delProject.addEventListener('click', (project) => {
+    delProject.addEventListener('click', (e) => {
+        e.stopPropagation();
         projectList.remove();
         projectOption.remove();
         todoList = todoList.filter(item => {
             return item.project != project
         })
+
+        let index = projectArray.indexOf(project);
+        if (listWrapper.getAttribute('class') === 'home' ||
+            listWrapper.getAttribute('class') === `project${index}`){
+            openHome();
+        }
+
+        projectArray = projectArray.filter(proj => {
+            return proj != project
+        })
+
         // get from local storage and delete?
     })
     projectList.addEventListener('click', () => {
-        openProject(project)})
+        underlineTab(projectList);
+        openProject(project)});
 }
 
 const noteContainer = document.createElement('div')
@@ -383,30 +386,48 @@ projectButton.addEventListener('click', ()=>{
 });
 
 //tab switch mechanism
-const homeTab = document.getElementById('home-tab')
-const noteTab = document.getElementById('note-tab')
+const homeTab = document.querySelector('.home-tab')
+const noteTab = document.querySelector('.note-tab')
+
+function underlineTab(tab){
+    const underlined = document.querySelector('.underline');
+    underlined.classList.remove('underline');
+    tab.classList.add('underline');
+
+}
 
 function openHome(){
+    underlineTab(homeTab);
     listWrapper.innerHTML = ''
+    listWrapper.removeAttribute('class')
+    listWrapper.classList.add('home')
     for (let item in todoList){
         addTodoItem(todoList[item]);
     }
 }
 
+
 function openProject(project){
+    let index = projectArray.indexOf(project);
     listWrapper.innerHTML = ''
-        let projectItems = todoList.filter(item => {
-            return item.project === project 
-        })
-        projectItems.forEach((item) => addTodoItem(item))
+    listWrapper.removeAttribute('class')
+    listWrapper.classList.add(`project${index}`)
+    let projectItems = todoList.filter(item => {
+        return item.project === project 
+    })
+    projectItems.forEach((item) => addTodoItem(item))
     }
 
-homeTab.addEventListener('click', openHome)
+homeTab.addEventListener('click', () => {
+    openHome();
+})
 
 noteTab.addEventListener('click', () => {
+    underlineTab(noteTab);
     listWrapper.innerHTML = ''
-    noteContainer.innerHTML = ''
-    listWrapper.appendChild(noteContainer)
+    listWrapper.cl
+    // noteContainer.innerHTML = ''
+    // listWrapper.appendChild(noteContainer)
     for (let note in notesArray){
         addNotes(notesArray[note]);
     }
@@ -425,4 +446,6 @@ const closeButtons = document.querySelector('.close');
 closeButtons.addEventListener('click', () => {
     dialog.close();
 })
+
+openHome();
 

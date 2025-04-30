@@ -100,9 +100,12 @@ img{
     background-color: var(--beige);
     grid-area: left;
 }
-#home-tab:hover, #note-tab:hover, .project-list:hover{
+.home-tab, .note-tab, .project-tab > h2, .project-list{
+    opacity: 60%;
+}
+.home-tab:hover, .note-tab:hover, .project-list:hover{
     cursor: pointer;
-    text-decoration: underline;
+    opacity: 100%;
 }
 .project-list{
     display: flex;
@@ -321,9 +324,9 @@ dialog{
 }
 .tabs:hover{
     cursor: pointer;
-    /* jiggle */
 }
 .active{
+    opacity: 100%;
     background-color: var(--beige);
 }
 input, textarea{
@@ -347,7 +350,6 @@ input[type='date']{
     height: 30px;
     border: none;
     overflow: hidden;
-    /* margin-bottom: 5px ; */
 }
 select:focus {
     box-shadow: none;
@@ -465,9 +467,12 @@ button[type = 'submit']:hover{
     opacity: 100%;
 }
 
-
 .note > button:hover{
     cursor: pointer;
     /* make it jiggle or bold */
 }
-/* put everything into a container befre content*/
+
+.underline, .underline > h2{
+    text-decoration: underline;
+    opacity: 100%;
+}
