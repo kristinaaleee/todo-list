@@ -369,30 +369,29 @@ const noteButton = document.getElementById('add-note');
 todoButton.addEventListener('click', () => {
     const todo = new Item(todoInput[0].value, todoInput[1].value, todoInput[2].value, todoInput[3].value, todoInput[4].value, false)
     todoList.push(todo);
+    addToLocalStorage(todoList)
     dialog.close();
     for (let i = 0; i < todoInput.length; i++){
         todoInput[i].value = '';
-    }
-    if (listWrapper.getAttribute('class') === 'home'){
-        openHome();
     }
     for (let i = 0; i < projectArray.length; i++){
         if (listWrapper.getAttribute('class') === `project${i}`){
             openProject(projectArray[i]);
         }
     }
-    // depending on page open list wrapper
 })
 
 noteButton.addEventListener('click', () => {
     addNotes(noteInput.value)
     notesArray.push(noteInput.value);
+    addToLocalStorage(notesArray);
     noteInput.value = '';
 })
     
 projectButton.addEventListener('click', ()=>{
     addProject(projectInput.value); 
     projectArray.push(projectInput.value);
+    addToLocalStorage(projectArray);
     projectInput.value = '';
 });
 
@@ -451,13 +450,45 @@ backgroundImg.src = background
 
 document.body.appendChild(backgroundImg)
 
-// connect to local storage by setting array
-
 //close buttons for forms
 const closeButtons = document.querySelector('.close');
 closeButtons.addEventListener('click', () => {
     dialog.close();
 })
 
-openHome();
+function addToLocalStorage(array){
+    if (array = todoList){
+        localStorage.setItem(`todo-list`, JSON.stringify(array))
+        if (listWrapper.getAttribute('class') === 'home'){
+            openHome();
+            console.log('this has been added', localStorage)
+        }
+    }
+    if (array = projectArray){
+        localStorage.setItem ('project-array', JSON.stringify(array))
+    }
+    if (array = notesArray){
+        localStorage.setItem('notes-array', JSON.stringify(array))
+    }
+}
 
+function getFromLocalStorage(){
+    const referenceTodo = localStorage.getItem(`todo-list`)
+    const referenceProject = localStorage.getItem('project-array')
+    const referenceNote = localStorage.getItem('notes-array')
+    if (referenceTodo){
+        todoList = JSON.parse(referenceTodo)
+        openHome();
+    }
+    if (referenceProject){
+        projectArray = JSON.parse(referenceProject)
+        for(let i = 0; i < projectArray.length; i++){
+            addProject(projectArray[i])
+        }
+    }
+    if (referenceNote){
+        notesArray = JSON.parse(referenceNote)
+    }
+}
+openHome();
+getFromLocalStorage();
