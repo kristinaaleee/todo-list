@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
     mode: "development",
-    entry: "./src/logic.js", //change to index as opener file
+    entry: "./src/index.js", 
     output: {
         filename: "main.js",
         path: path.resolve(__dirname, "dist"),

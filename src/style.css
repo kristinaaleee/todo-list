@@ -430,20 +430,19 @@ button[type = 'submit']:hover{
     justify-items: center;
 }
 .notecard{
-    display: block;
     font-size: 1.3em;
     background-color: var(--beige);
     width: 225px;
-    max-height: 175px;
     padding: 20px;
     box-shadow: 1px 0px 4px gray;
     word-wrap: break-word;
     position: relative;
     white-space: pre-wrap;
 }
+
 .notecard > div{
+    min-height: calc(100% + 2px);
     max-height: 135px;
-    height: auto;
     overflow-y: scroll;
     text-wrap: pretty;
     line-height: 1.3em;
