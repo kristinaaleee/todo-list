@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Zain:ital,wght@0,200;0,300;0,400;0,700;0,800;0,900;1,300;1,400&display=swap');
+    </style>
+<script defer src="main.js"></script></head>
+<body>
+    <div id="container">
+        <div id="header">
+            <h1 id="title">To-Do List</h1>
+        </div>
+        <div id="left-panel">
+            <div class="home-tab underline">
+                <h2>Home</h2>
+            </div>
+            <div class="note-tab">
+                <h2>Notes</h2>    
+            </div>
+            <div class="project-tab">
+                <h2>Projects</h2>
+            </div>
+        </div>
+        <div id="main-panel">
+            <div id="list-wrapper">
+            <!-- todo list content -->
+            </div>
+            <button id="new">+</button>
+        </div> 
+        <dialog id="dialog">
+        <div class='form-wrapper'>
+            <div id="tab-wrapper">
+                <button class="tabs" >To-do Item</button>
+                <button class="tabs">Project</button>
+                <button class="tabs">Notes</button>
+                <button class="close">&#10006</button>
+            </div>
+            <div class="tabcontent">
+                <form action="" method="dialog" >
+                    <input type="text" class="todo-input" placeholder="Title: Bill Payments" required>
+                    <textarea class="todo-input" placeholder="Details: e.g. credit card, car insurance, utilities"></textarea>
+
+                    <div id="date-wrapper">
+                        <label for="date">Due Date: </label>
+                        <input type="date" class="todo-input" required>
+                    </div>
+                    
+                    <div id="priority-wrapper">
+                        <label for="priority">Priority: </label>
+                        <select id="priority-select" class="todo-input" multiple required>
+                            <option value="high">High</option>
+                            <option value="med">Med</option>                        
+                           <option value="low">Low</option>
+                        </select>   
+                    </div>
+                    
+                    <div id="project-wrapper">
+                        <label for="project">Project: </label>
+                        <select id="project-select" class="todo-input">
+                           <option value="">N/A</option>
+                        </select> 
+                    </div>
+                    
+                    <button type='submit' id="add-todo" formmethod="dialog">Add</button>
+                </form>
+            </div>
+            <div class="tabcontent">
+                <form action="" method="dialog">
+                    <input type="text" id="project-title" placeholder="Title: Academic Assignments">
+                    <button type='submit' id="add-project" formmethod="dialog">Add</button>
+                </form>
+            </div>
+            <div class="tabcontent">
+                <form action="" method="dialog">
+                    <textarea id="note-info" placeholder="Note: e.g. Deadlift PR 4000 pounds"></textarea>
+                    <button type='submit' id="add-note" formmethod="dialog">Add</button>
+                </form>
+            </div>
+        </div> 
+    </dialog> 
+    </div>
+<script src="65a1516b442e3a7df8f4.js"></script>
+</body>
+</html>
